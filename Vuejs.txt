@@ -369,6 +369,24 @@ index.html
 </html>
 
 
+in order to integrate vue with existing html
+
+you have to add script which is distributed by vue community via "cdn".
+
+There are two builds:
+1.dev build
+2.prod build
+
+Dev Build
+
+<script src="https://unpkg.com/vue@3"></script>
+
+You are running a development build of Vue.
+Make sure to use the production build (*.prod.js) when deploying for production.
+
+
+Prod Build
+ <script src="https://unpkg.com/vue@3.1.1/dist/vue.global.prod.js"></script>
 
 
 
