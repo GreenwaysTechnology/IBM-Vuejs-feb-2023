@@ -389,6 +389,103 @@ Prod Build
  <script src="https://unpkg.com/vue@3.1.1/dist/vue.global.prod.js"></script>
 
 
+....................................................................................
+Core concepts of Vue
+....................
+			   Vue Application
+
+Vue is just javascript framework, offers apis,infrastructure to build "DOM" programming.
+
+DOM Programming:
+1.create element or elements 
+   When we create elements we create tree model-DOM tree
+2.update existing elements content
+3.remove/delete existing element content and element itself
+4.list/walk through tree
+5.we may change style dynamically
+6.we interact with ui and change the ui.
+
+
+Vue is javascript dom programming framework 
+
+There are two ways of programming in UI:
+
+1.imperative programming
+    The way of write program using complex logics, more boiler plate code.
+eg:
+  create element using plain js
+  create element using jQuery
+
+   <div id="root">
+
+    </div>
+    <script>
+        function createElement() {
+            console.log('create Element')
+            const Heading = document.createElement('h1')
+            Heading.innerHTML = 'Hello DOM!'
+            Heading.style.color = 'blue'
+            document.getElementById('root').appendChild(Heading)
+        }
+        createElement();
+    </script>
+
+2.declarative programming
+
+ =>write less code
+ =>Abstract DOM apis with readable constructs 
+ =>introduce declarative templates
+
+Note:
+ Template driven technology introduced in server side computing in 1990's
+ 2006, the first template driven technology was introduced in javascript called
+ mustache.js ( {{}}})
+ Template = static + dynamic  content , where dynamic content is interpolated into code. 
+ eg <h1>Hello {{name}} </h1>
+
+ "Vue is based on declarative , which extends standard HTML with a template syntax"
+				+
+			   java script => binds the state(data)/ biz logic
+
+HTML + Extra Syntax + Bizlogic+data = Vue.js
+.....................................................................................
+
+.....................................................................................
+How vue represents UI?
+
+=>Vue creates UI dynamically(DOM)
+=>Vue organizes the UI into smaller and smaller UI
+=>VUE breaks the complex UI into Smallary UI
+    This model is called called as "Compostion"
+
+Why Compostion?
+=>The UI can be reused any where in the app and also outside app.
+=>The code maintaince is very easy,because it is independant.
+
+	    "The arch is called as Component Driven Arch"
+
+Component means parts of something.
+
+.....................................................................................
+			 Vue Instance /Application Object
+.....................................................................................
+
+In vuejs, the whole application(User interface), is composed into the object called
+"Vue instance".
+
+Pro Vue 3
+
+var app = new Vue({})
+
+Vue 3:
+We can get Vue instance:
+
+ 1.Via Globale Vue Variable
+ 2.Via ES  6 Modules
+
+
+
+
 
 
 
