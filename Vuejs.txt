@@ -1,0 +1,382 @@
+
+Pre Knowledge:
+
+1.HTML 5
+2.CSS 3
+3.Javascript ES 5 and Es 6 
+4.node js fundamentals - npm
+
+Nice to have
+1.React/Angular
+.....................................................................................
+
+Lab setup:
+
+1.node.js
+2.vs code
+....................................................................................
+
+What is Vue.js?
+  Vue js is a javascript framework for building user interfaces
+
+
+What is User interface?
+  The application where user interacts.
+
+Types of user interface application:
+
+1.Desktop applications
+2.Web Applications which is running inside browser
+3.Mobile Applications
+   Native
+   Browser based 
+   Hybrid Mobile Application
+4.Other devices based Apps
+
+Web Applications:
+.................
+ The application is built and distributed over internet and accessed by using http protocal.
+
+Types of web application:
+
+Server side Web Application:
+.............................
+1.Static web apps - 1989 to 1995
+https://home.cern/science/computing/where-web-was-born
+
+2.Dynamic Content Generation Web App - 1996 to till date
+  -CGI - C,Perl
+  -J2EE - Java, Servlet
+  -ASP - VbScript, vb
+  -PHP - PHP
+  -.net,nodejs,ruby..rails....
+Output: HTML pages generated on fly.
+
+3.Biz to Biz integration:
+   Incase two biz organization want to share their information via internet
+ DCG technology was not enough.
+ Web Services:  1998 to till Date
+  COMMON DATA Interchange format
+   instead of exchanging html pages we can exchange data in the form of XML
+  -XML - Soap Web Services
+ 2005 on wards - REST Full web services
+,.............................................................................
+Client side Web Apps:
+
+Browser based :
+ Desktop browsers
+ Mobile browsers
+
+ Powered with HTML With Javascript 
+    Incase of dynamic web apps, html genereated by server and javascript changed and processed html pages at client side.
+
+
+In 2007,W3c Introduced new web development arch, called "Single Page Web Application/SPA"
+
+In SPA
+
+ Client user interface applications were written using "HTML 5,CSS3,Javascript" where as server side applications are "Web Services-REST API" which serves data to the client.
+
+SPA:
+       Client User App (HTML,CSS,JS)<-------------------> REST API
+
+SPA Frameworks:
+1.Mustache.js
+2.Angular.js
+3.React
+4.Angular
+5.Vue.js
+
+.....................................................................................
+			  Client Side Web Technology.
+
+There are there primary languages 
+1.HTML 5
+2.Javascript 
+3.CSS
+
+DOM Programming:
+................
+What is DOM?
+
+What is HTML? How it works?
+
+HTML is the programming language,DSL / Declarative Programming languge. Domain specific language- Domain specific language is nothing but the language built for sepcific domain, which cant be used for other purposes.
+
+HTML internal work flow:
+.......................
+index.html -  source code
+
+<html>
+ <head>
+   <title>HTML</title>
+ </head>
+ <body>
+     <h1>Welcome</h1>
+ </body>
+</html>
+ --------------Browser
+  |
+ loader : load source code into browser
+  |
+  uses protocal 
+   file or http
+  |
+  parser : Parser is spcial compiler which converts source code into lexical tree
+           (String tree)
+   |
+
+html
+  head
+   title
+      HTML
+   title
+ head
+ body
+     h1
+      Welcome
+     h1
+ body
+html
+   |
+   compiler: Compilation: convert source code into assembly language
+   |
+html - LOAD XXX
+  head-
+   title
+      HTML
+   title
+ head
+ body
+     h1
+      Welcome
+     h1
+ body
+html
+.......................&&&&&&&&&&&&&..........................................  
+                                Runtime
+
+During runtime, we need to allocate memory for the program.
+
+Runtime will create LinkedList(c) for the entire html document
+
+html - Node
+  head-
+   title
+      HTML
+   title
+ head
+ body -Node
+     h1  - Node
+      Welcome
+     h1
+ body
+html
+
+Nodes are connected each other in Hierchical Structure(Tree)
+
+Linking the Nodes (Tree)
+
+body -Node
+    |
+     h1  - Node
+      |
+        Welcome
+     h1
+ body
+ |
+Layout Engine/Paint Engine
+   |
+  will convert into pxs - Final Ouput
+
+            At End , the html page is "Tree Data Structure"
+..........................***.....................................................
+			The Netscap Communication and HTML Tree
+.................................................................................
+Netscap started a project,to access rendered "tree" via program.
+
+Netcap initally decided to introduce c program,later who decided to change their mind to "Java".
+Java was not also not suitable , the reason was , java was the big language , putting the language inside browser is not suitable.
+
+Nets cap finally decided who did not want eiter c or java, but java like language
+ - "The Birth of Javascript" 
+
+The Javascript was introduced  as light weight programming language to access the tree,process the tree.
+
+How to reprsent html inside javascript engine?
+ 
+ Netscap took an idea "Object" Model.
+
+Every html element is object, which is created once the browser loads the html into browser,and also object can be created using apis..
+
+Javascript engins forms the tree called "Object Tree"
+.....................................................................................
+			Netscap Object and W3c
+.....................................................................................
+
+After Object tree model and javascript success, W3C  decided to standarize this arch/technology.
+
+After standarization, w3c publish a spec called "DOM" -  Document Object Model
+
+How dom works?
+
+index.html           Broser runtime(C program)         Javascript Engine
+<h1>Hello</h1>       h1-Node                           h1- Object
+			Hello-Node			 Hello Object Property
+
+
+
+                Every Html ELEMENT Inside Browser is "C Program"
+
+	        Every Html ELEMENT Inside javascript engine is "Object"
+
+HTML Elements(p,h1,div,img) are  represented inside browser as "Node", inside Javascript Engine "Object - DOM "
+
+
+javascript developer ---->uses api --->to communicate Object---->js engine---->browser engine.
+.....................................................................................
+				DOM Programming
+.....................................................................................
+
+How to implement dom programming?
+
+1.using plain js
+  if we use plain js , it is very difficult to build large applications
+
+2.using frameworks and libs
+
+2000 - The first javascript framework - DOJO
+2002-2005 - JQuery - is the second most powerfull dom lib.
+After 2006 - many js libs and frameworks introduced.. 2008(Angular js) 2013(react)...
+
+Popular DOM frameworks/lib:
+1.React
+2.Angular
+3.Vue.js
+
+.....................................................................................
+			 Vue Application Types
+
+Vue.js is a framework used to build different types of client side apps
+
+1.Standalone script application
+   Enchancing html(genereated by server) by adding javascript /js lib(jquery)
+ 
+if you have traditional web apps written using server side techn like jsp,asp,php which has "js/jquery" lib
+
+    Vue is Declarative  replacement of Imperative "Jquery"
+
+
+2.Web Component
+    Vue supports to create web component arch based applications
+
+3.Single Page Web Application(SPA)
+   Vue is Primarily popuplar for building spa applications
+
+4.Full Stack /SSR - Server side Rendered apps.
+ 
+  SSR =  SPA + Server Side Technologies
+
+ Pure SPA's has limitations when the app is sensitive to SEO and time to constent.
+ Every thing happens in the browser side with respective SPA.
+
+ Vue apps can be compiled/render in the server side.
+ Server will generate html pages before sending to the browser(client) - Pre  rendering.
+ https://nuxtjs.org/ -  for ssr with vuejs
+
+5.SSG/JAMStack
+   Server side static file generation(96), instead of build dynamic apps, suppose we need static apps.
+
+  Server-side rendering can be done ahead of time if the required data is static. This means we can pre-render an entire application into HTML and serve them as static files.
+
+ This improves site performance and makes deployment a lot simpler since we no longer need to dynamically render pages on each request. 
+
+Vue can still hydrate such applications to provide rich interactivity on the client. This technique is commonly referred to as Static-Site Generation (SSG), also known as JAMStack.
+
+The Vue team maintains a static-site generator called VitePress, which powers this website you are reading right now! In addition, Nuxt also supports SSG. You can even mix SSR and SSG for different routes in the same Nuxt app.
+
+https://jamstack.org/
+
+vue supported frameworks - VitePress,Nuxt
+
+
+Beyond the Web:
+...............
+
+Although Vue is primarily designed for building web applications, it is by no means limited to just the browser. You can:
+
+Build desktop apps with Electron or Tauri
+Build mobile apps with Ionic Vue
+Build desktop and mobile apps from the same codebase with Quasar
+Use Vue's Custom Renderer API to build custom renderers targeting WebGL or even the terminal!
+....................................................................................
+
+App selections:
+
+Whether your app is legacy server side apps built using j2ee or .net,php,rails--->
+ Standalone vue.js
+
+Your app is api centeric(webservices)/microservices
+   Vue can be used as "SPA"
+
+SPA With SSR for better optimization and SEO ready
+
+SPA and SSR With SSG/JAM Stack - where your app is having static data
+.....................................................................................
+
+.....................................................................................
+			   Getting started with Vue App
+....................................................................................
+
+Development work flows:
+
+1.Without Build Tool
+2.With Build Tool
+
+
+Project Setup:
+..............
+
+1.without build tools
+
+2.with build tools
+.............................................................................
+
+1.without build tools
+
+Steps:
+
+1.create Project
+
+>mkdir vue-legacy
+
+vue-legacy>mkdir src
+
+create index.html outside src dir
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-legacy</title>
+</head>
+<body>
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
