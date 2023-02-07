@@ -11,7 +11,8 @@
     <script type="importmap">
         {
           "imports": {
-              "vue":"https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+              "vue":"https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+              "app": "./src/components/App.js"
           }
         }
       </script>
@@ -25,10 +26,12 @@
     <script type="module">
         //step 1: import factory method
         import { createApp } from 'vue'
+        import  Application  from 'app'
         //step 2: create app instance
-        const app = createApp({
-            template: `<h1> Welcome to Vue Application</h1>`
-        })
+        // const app = createApp({
+        //     template: `<h1> Welcome to Vue Application</h1>`
+        // })
+        const app = createApp(Application)
         //Step 3: Mount the component into root element
         app.mount("#root")
 

@@ -745,12 +745,549 @@ const Logo ={
   others:{}
   methods:{} 
 }
+.....................................................................................
+			Vue Application Setup using Build Tools
+....................................................................................
+
+Build tools are js based tools for create,manage js apps work flows.
+Build tools based on npm tool.
+
+Setup Vue Project using build tool based: CLI based apporach.
+.............................................................
+
+There are two cli tools
+
+1.Vue-cli
+  https://cli.vuejs.org/#getting-started
+Vue- cli is now in maintance mode, meaning that , which is only used for creating old vue project(v2)
+
+2.Vite
+https://vitejs.dev/guide/
+Next Generation Frontend Tooling project, used to create no of project types.
+
+We are going to follow Vite base project setup
+
+npm init vue@latest
+
+This is abstraction for vite based project templates
+
+>npm init vue@latest
+
+vue-cli
+ old pattern
+vite
+ modern pattern - recommended
+ npm init vue@latest
+
+This is abstraction for vite based project templates
+
+>npm init vue@latest
+Need to install the following packages:
+  create-vue@latest
+Ok to proceed? (y) y
+
+Vue.js - The Progressive JavaScript Framework
+
+√ Project name: ... vue-app
+√ Add TypeScript? ... No / Yes
+√ Add JSX Support? ... No / Yes
+√ Add Vue Router for Single Page Application development? ... No / Yes
+√ Add Pinia for state management? ... No / Yes
+√ Add Vitest for Unit Testing? ... No / Yes
+√ Add Cypress for both Unit and End-to-End testing? ... No / Yes
+√ Add ESLint for code quality? ... No / Yes
+√ Add Prettier for code formatting? ... No / Yes
+
+
+Done. Now run:
+
+  cd vue-app
+  npm install
+  npm run lint
+  npm run dev
+
+Folders and file Structure:
+..........................
+package.json
+{
+  "name": "vue-app",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "dependencies": {
+    "vue": "^3.2.38"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.3",
+    "vite": "^3.0.9"
+  }
+}
+
+vite.config.js
+ To configure build tool
+import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
+})
+index.html
+ Root /landing page , where it kicks starts app work flow.
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+
+src
+ |
+ assets
+ components
+ App.vue
+ main.js
+
+assets folder contains all basic css files ,images,documents
+components folder contains components 
+
+App.vue
+  Root Component for the application, mostly components are saved with "fileName.vue"
+
+main.js
+ entry file for any vue application
+import { createApp } from 'vue'
+import App from './App.vue'
+import './assets/main.css'
+
+createApp(App).mount('#app')
+
+....................................................................................
+				Vue Coding style
+....................................................................................
+Vue coding can be classified into two category
+
+Vue 2.X and Vue 3.X
+
+Api classification:
+...................
+
+1.Options Api Based Style - Vue 2.x Style and Vue 3.x
+2.Composition Api Based Style  -Vue 3.x Style
+
+
+.....................................................................................
+			Vue Application Setup using Build Tools
+....................................................................................
+
+Build tools are js based tools for create,manage js apps work flows.
+Build tools based on npm tool.
+
+Setup Vue Project using build tool based: CLI based apporach.
+.............................................................
+
+There are two cli tools
+
+1.Vue-cli
+  https://cli.vuejs.org/#getting-started
+Vue- cli is now in maintance mode, meaning that , which is only used for creating old vue project(v2)
+
+2.Vite
+https://vitejs.dev/guide/
+Next Generation Frontend Tooling project, used to create no of project types.
+
+We are going to follow Vite base project setup
+
+npm init vue@latest
+
+This is abstraction for vite based project templates
+
+>npm init vue@latest
+
+vue-cli
+ old pattern
+vite
+ modern pattern - recommended
+ npm init vue@latest
+
+This is abstraction for vite based project templates
+
+>npm init vue@latest
+Need to install the following packages:
+  create-vue@latest
+Ok to proceed? (y) y
+
+Vue.js - The Progressive JavaScript Framework
+
+√ Project name: ... vue-app
+√ Add TypeScript? ... No / Yes
+√ Add JSX Support? ... No / Yes
+√ Add Vue Router for Single Page Application development? ... No / Yes
+√ Add Pinia for state management? ... No / Yes
+√ Add Vitest for Unit Testing? ... No / Yes
+√ Add Cypress for both Unit and End-to-End testing? ... No / Yes
+√ Add ESLint for code quality? ... No / Yes
+√ Add Prettier for code formatting? ... No / Yes
+
+
+Done. Now run:
+
+  cd vue-app
+  npm install
+  npm run lint
+  npm run dev
+
+Folders and file Structure:
+..........................
+package.json
+{
+  "name": "vue-app",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "dependencies": {
+    "vue": "^3.2.38"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.3",
+    "vite": "^3.0.9"
+  }
+}
+
+vite.config.js
+ To configure build tool
+import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
+})
+index.html
+ Root /landing page , where it kicks starts app work flow.
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+
+src
+ |
+ assets
+ components
+ App.vue
+ main.js
+
+assets folder contains all basic css files ,images,documents
+components folder contains components 
+
+App.vue
+  Root Component for the application, mostly components are saved with "fileName.vue"
+
+main.js
+ entry file for any vue application
+import { createApp } from 'vue'
+import App from './App.vue'
+import './assets/main.css'
+
+createApp(App).mount('#app')
+.....................................................................................
+			 Components Creational Patterns
+....................................................................................
+
+1.Plain Java script Pattern
+
+App.js
+export default {
+  
+  ...options 
+  
+}
+
+It is more imperative way of creating components
+
+2.Single File Components -SFC
+
+ It is more declarative way of creating components
+ As name suggest, All Component logic inside single file.
+
+Components have three major segment:
+
+1.template 
+   collection of html elements and vue instructions
+2.javascript
+   collection of variables,methods
+3.style 
+   css style for a component
+
+
+In SFC Pattern, we isloate very clearly into three sections
+
+<script>
+   ....All javascript code
+</script>
+<template>
+  ...template code
+</template>
+<style>
+ //style for this component
+</style>
+
+
+Plain javascript pattern is usefull where there is no build workflow,SFC is usefull and necessary in build tool work flow 
+
+		  SFC components are saved with fileName.vue
+		Plain javascript pattern files are saved with fileName.js
+
+
+eg: Plain JS pattern
+src/components/App.js
+//Component creation based on js extension: without build tool 
+export default {
+    template: `
+             <h1>Vue Application!</h1>
+            `,
+    //rest of the apis
+
+}
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Polyfil lib for importmap -->
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.5/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+          "imports": {
+              "vue":"https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+              "app": "./src/components/App.js"
+          }
+        }
+      </script>
+</head>
+
+<body>
+
+    <div id="root">
+        <!-- Insert dom node -->
+    </div>
+    <script type="module">
+        //step 1: import factory method
+        import { createApp } from 'vue'
+        import  Application  from 'app'
+        //step 2: create app instance
+        // const app = createApp({
+        //     template: `<h1> Welcome to Vue Application</h1>`
+        // })
+        const app = createApp(Application)
+        //Step 3: Mount the component into root element
+        app.mount("#root")
+
+    </script>
+</body>
+
+</html>
+
+
+Single File Component Pattern -SFC
+App.vue
+
+<!-- Three segments -->
+<script>
+</script>
+<template>
+    <h1>Hello Vue!</h1>
+</template>
+<style>
+</style>
+
+....................................................................................
+			Commonality between both patterns
+ 			(Options api and Composition api)
+
+1.code segementation is same
+  <script></script>
+  <template></template>
+  <style></style>
+
+Options Api Pattern:
+......................
+In options Api Pattern, we return Options Object , which contains neccessary configurations.
+
+<script>
+ //return options object
+ export default {
+    //options
+
+ }
+<script>
+Options Api Pattern:
+......................
+In options Api Pattern, we return Options Object , which contains neccessary configurations.
+
+<script>
+ //return options object
+ export default {
+    //options
+
+ }
+<script>
+
+
+eg:
+
+<!-- Options Api Pattern -->
+<script>
+//you have to return Options Object
+export default {
+    props:['something'],
+    data() {
+        return {
+            name: 'Subramanian'
+        }
+    }
+}
+</script>
+<template>
+    <h1>Components Using Options Api Pattern</h1>
+</template>
+<style>
+
+</style>
+....................................................................................
+			  Composition Api Pattern
+
+In this pattern we define a component logic's using imported Api functions
+In this pattern we write code directly inside script.
+
+		          Composition Api Pattern
+				  |
+		----------------------------------------------------
+		|                                                  |
+	      with setup function                          with setup attribute				
+
+
+With Setup function:
+...................
+1.Looks like Options api pattern but code refactoring done.
+2.It looks like imperative style of compostion apis.
+
+<!-- Compsition pattern with setup function -->
+<script>
+export default {
+    setup() {
+        //all js initalization code will go here
+    }
+}
+</script>
+<template>
+</template>
+<style>
+
+</style>
+
+With setup attribute:
+....................
+
+1.vue compiler writes all boiler plate code for us.
+
+<!-- Compsition pattern with setup attribute -->
+<script setup>
+// you can write app logic directly : which looks like regular js code
+</script>
+<template>
+    <h1>Single File Component with Composition api with setup attribute</h1>
+</template>
+<style>
+
+</style>
+
+
+ 				Vue App
+				   |
+			---------------------------------------  
+			With Build tool                  without build tool
+				 |				|
+			SFC Component            	 Script based (refer above)
+				   |
+	----------------------------------------------------------------
+        |                                                             |
+        |                                                             |
+
+      Options Api                                              Composition Api
+	 |                                                          |
+   Vue 2 based apps                                           Vue 3 based apps
+							        												|	
+		  							|
+				----------------------------------------------------
+				|                                       |
+	      	with setup function                           with setup attribute	
 
 
 
+eg:
 
+<!-- Options Api Pattern -->
+<script>
+//you have to return Options Object
+export default {
+    props:['something'],
+    data() {
+        return {
+            name: 'Subramanian'
+        }
+    }
+}
+</script>
+<template>
+    <h1>Components Using Options Api Pattern</h1>
+</template>
+<style>
 
-
+</style>
 
 
 
