@@ -484,6 +484,272 @@ We can get Vue instance:
  2.Via ES  6 Modules
 
 
+			A.Via Global Vue variable
+...................................................................................
+Getting Vue instance:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+
+</head>
+<body>
+  <h1>Vue Application Instance</h1>
+  <script>
+    //Vue is global Vue Variable which returns Vue instance
+    const vueInstance = Vue 
+    console.log(vueInstance)
+    console.log(vueInstance.version)
+  </script>  
+</body>
+</html>
+
+....................................................................................
+			B.Via Es 6 modules
+.....................................................................................
+
+can we use es 6 modules directly inside browser
+
+No, in older browsers
+yes in modern browsers
+
+name.js
+export const name='Subramanian'
+
+index.js
+import {name} from './name'
+
+Generally browser has no facility to link files and share code using "ES 6 modules keyword "
+
+How to run es 6 module based apps inside browsers
+
+Solution:
+1.Using build tools - webpack,rollup.
+   React,angular uses this tool behind it.
+
+2.Using browser alone
+   using type=module
+
+ Recently browsers vendors added a capability to link files at browser level, this is still in experimental mode- many browsers(old browsers may not support)
+
+Dont Try this in production.
+............................................................
+			 Vue js and es 6 modules
+
+
+2.Using browser alone
+   Dynamically Import JavaScript with Import Maps
+
+if you want import any js code within html file.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>    
+    <script type="importmap">
+        {
+          "imports": {
+          
+          }
+        }
+      </script> 
+</head>
+<body>    
+    <!-- <script src="src/index.js" type="module"></script> -->
+
+</body>
+</html>
+
+Note:
+Import Maps Browser Support
+
+Import maps are supported by default in Chromium-based browsers, so we recommend using Chrome or Edge during the learning process.
+
+If using Firefox, it is only supported in version 102+ and currently needs to be enabled via the dom.importMaps.enabled option in about:config.
+
+If your preferred browser does not support import maps yet, you can polyfill it with es-module-shims.
+
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.5/dist/es-module-shims.js"></script>
+
+Not for production
+
+The import-maps-based setup is meant for learning only - if you intend to use Vue without build tools in production, make sure to check out the Production Deployment Guide.
+
+Vue is Root Instance having lot methods (factory methods)
+
+createApp: (...args) => {…}
+createBlock: ƒ createBlock(type, props, children, patchFlag, dynamicProps)
+createCommentVNode: ƒ createCommentVNode(text = '', // when used as the v-else branch, the comment node must be created as a // block to ensure correct updates. asBlock = false)
+createElementBlock: ƒ createElementBlock(type, props, children, patchFlag, 
+etc...
+
+First UI:
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Polyfil lib for importmap -->
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.5/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+          "imports": {
+              "vue":"https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+      </script>
+</head>
+
+<body>
+
+    <div id="root">
+        <!-- Insert dom node -->
+    </div>
+    <script type="module">
+        //step 1: import factory method
+        import { createApp } from 'vue'
+        //step 2: create app instance
+        const app = createApp({
+            template: `<h1> Welcome to Vue Application</h1>`
+        })
+        //Step 3: Mount the component into root element
+        app.mount("#root")
+
+    </script>
+</body>
+
+</html>
+.....................................................................................
+			  User interface Development
+.....................................................................................
+
+User interface development guidelines:
+
+1.User interface must be broken into smallar and smallar -  Compostion - Component model
+
+2.User interface is organized in hierachal structure -  Tree Structure 
+  Thats where html has been designed.
+ We need to follow html tree model
+
+ <div>
+    <div>
+	<div>
+	   
+	</div>
+	
+    </div>
+ </div>
+
+3.In tree model there must be one root element
+..................................................................................
+				Root Component(root Element)
+
+
+In React:
+ function Logo(){
+   
+   return <img src="logo.png"/>
+ 
+}
+In Angular
+
+ @Component({
+   selector:'app-logo'
+   template:`<img src="logo.png"/>
+ }) 
+ export class Logo{
+
+ }
+In Vue:
+ Component is object which is represented as literal object.
+
+const Logo ={
+
+}
+What component contains:
+
+ component information can be categorized into various segments
+
+1.UI/Rendering - HTML,CSS(Markup)
+..................................
+ template
+ render
+ compilerOptions
+
+2.State -(data) - javascript
+ data 
+ props
+ computed
+ methods
+ watch
+ emits
+ expose
+
+3.Life Cycle hooks(methods)
+beforeCreate
+created
+beforeMount
+mounted
+beforeUpdate
+updated
+beforeUnmount
+unmounted
+errorCaptured
+renderTracked
+renderTriggered
+activated
+deactivated
+serverPrefetch
+
+4.Composition
+ provide
+ inject
+ mixins
+ extends
+
+
+Misc
+name
+inheritAttrs
+components
+directives
+
+Component Instance api
+$data
+$props
+$el
+$options
+$parent
+$root
+$slots
+$refs
+$attrs
+$watch()
+$emit()
+$forceUpdate()
+$nextTick()
+
+const Logo ={
+  ui: {},
+  state:{}
+  others:{}
+  methods:{} 
+}
+
+
+
+
+
 
 
 

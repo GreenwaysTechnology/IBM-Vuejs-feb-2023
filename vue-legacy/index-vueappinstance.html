@@ -18,20 +18,11 @@
 </head>
 
 <body>
-
-    <div id="root">
-        <!-- Insert dom node -->
-    </div>
     <script type="module">
-        //step 1: import factory method
         import { createApp } from 'vue'
-        //step 2: create app instance
-        const app = createApp({
-            template: `<h1> Welcome to Vue Application</h1>`
-        })
-        //Step 3: Mount the component into root element
-        app.mount("#root")
-
+        //create Application Object
+        const app = createApp()
+        console.log(app)
     </script>
 </body>
 
