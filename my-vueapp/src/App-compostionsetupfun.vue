@@ -1,10 +1,12 @@
 <script>
 export default {
+    setup() {
 
+    }
 }
 </script>
 <template>
-    <h1>HelloWorld</h1>
+    <h1>Composition api with setup function</h1>
 </template>
 <style>
 
