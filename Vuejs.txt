@@ -1310,11 +1310,6 @@ Composition with setup attribute:
 
 </style>
 
-
-.....................................................................................
-			Component Compostion
-....................................................................................
-
 ....................................................................................
 			Component Composition 
 
@@ -1359,11 +1354,7 @@ export default {
 <style>
 
 </style>
-..................................................................................
-Component Registration with Composition api with setup function:
-.................................................................
-
-..................................................................................
+.................................................................................
 Component Registration with composition pattern with setup function:
 ......................................................................
 <script>
@@ -1383,7 +1374,6 @@ export default {
 <style>
 
 </style>
-.................................................................................	
 .................................................................................	Component Registration with composition pattern with setup attribute:
 ......................................................................
 <script setup>
@@ -1785,9 +1775,10 @@ export default {
 <style>
 
 </style>
-<script> without setup attribute:
+<script> 
 .................................
 
+without setup attribute:
 The component logic must be encapsulated inside a function called "setup"
 
 export default {
@@ -1845,6 +1836,507 @@ const address = {
 
 </style>
 
+..........
+.....................................................................................
+				Directives
+....................................................................................
 
+What is directive?
+  Directive is object which helps to create custom elements and attributes.
+  Directives enchances existing html elements - We extend the functionality of HTML   elements.
+  We are going to add new behaviour to the HTML elements.
+
+Vue is highly modular framework, code Resue is Main Objective.
+
+Code Resue Patterns:
+...................
+
+1.Components
+2.Composables(Hooks)
+3.Directives
+
+
+Components are main building blocks.
+Composable are focused on "Resuing stateful logic" - Data isloation.
+Directives are mainly intented for resuing logic that involes low level DOM Acess on Plain Elements -DOM Element features.
+
+HTML elements Types:
+
+1.Built in element and attributes
+2.Custom elements and attributes
+
+<h1>Hello</h1> -  built in element
+
+HTML Compiler Work flow:
+.......................
+
+
+<h1>Hello</h1> -----Compiler verfies this element is built in or not
+				|
+		   --------------------------------
+		   |                              |
+                 Yes                             No
+		  |                              |
+Browser parses the                    Brower throws exception called "UnknownElement"
+element and convert                   which is converted into plain ascii node
+it , render accordingly
+
+
+<app-drawer> - it is custom element, generally browser does not under stand.
+
+In 2007, W3c introduced new idea that developers can add their own tags/elements(custom elements and custom attributes)
+   HTML 5 Specification
+
+built in element logic is already written, so that browser easily understands that.
+
+What about custom element, how to teach browser to understand custom elements?
+    
+  "Through Javascript"
+
+<app-drawer> ---|JS Code--->Runs ---renders in the browser....
+   
+eg:
+<script setup>
+import AppDrawer from './components/drawer/AppDrawer.vue'
+</script>
+<template>
+<h1>Drawer App</h1>
+<!-- Custom element -->
+<app-drawer></app-drawer>
+</template>
+<style>
+
+</style>
+
+src/componnets/drawer/AppDrawer.vue
+<script setup>
+</script>
+<template>
+    <p>Drawer Element</p>
+</template>
+<style>
+</style>
+
+               "Every Component is a Custom element only"
+
+.....................................................................................
+			Custom Attributes
+.....................................................................................
+
+1.Built in element Attributes
+
+ <img src="" alt="">
+       |      |
+   Attributes - Built in attributes
+
+Browser knows how to put logic to src and alt.
+
+2.Custom attributes on existing html elements
+
+<img customAttribute />
+        | 
+     custom attribute
+How to teach browser to parse custom Attributes 
+  "Through Javascript"
+
+eg: Vue rendered page:
+
+<div id="app" data-v-app="">
+<h1>Drawer App</h1>
+ <!-- Custom element --><p>Drawer Element</p>
+</div>
+.....................................................................................
+Vue.js Helps to add Custom attributes on existing elements via "Directives" -Attribute Directives
+.....................................................................................
+
+Vue js attribute directive syntax:
+
+v-directiveName
+
+Built in Directives:
+...................
+v-text
+v-html
+v-show
+v-if
+v-else
+v-else-if
+v-for
+v-on
+v-bind
+v-model
+v-slot
+v-pre
+v-once
+v-memo
+v-cloak
+
+Special Attributes
+key
+ref
+is
+.....................................................................................
+			    v-html and v-text
+...................................................................................
+
+v-html :
+ inserts data into html element as "HTML"
+{{}} 
+  inserts data into html element as "Plain Text"
+
+				v-text
+
+Update the element's text content. - innerText
+
+<script setup>
+//variable
+const name = 'Subramanian'
+</script>
+<template>
+    <h1>Interpolation using mustace notation</h1>
+    <h2>Name {{name}}</h2>
+    <h1>Interpolation using using Directives-text </h1>
+    <h2 v-text="`name ${name}`"></h2>
+    <h1>Interpolation using using Directives-html </h1>
+    <h2 v-html="`name ${name}`"></h2>
+</template>
+<style>
+
+</style>
+....................................................................................
+			 v-bind
+...................................................................................
+
+V-binds html attributes values or components values(properties) dynamically.
+
+Binding: Attach value to the attribute
+
+Static Binding
+  <img src="logo.png"/>
+here value of src cant be changed once the ui rendered
+
+Dynamic Binding
+ <img v-bind:src="variableHoldingImage" /> 
+Short cut:
+ <img :src="variableHoldingImage" /> 
+  here v-bind is implicit
+
+<script setup>
+ const imageUrl ="/src/assets/logo.svg"
+ const isEnabled = true 
+ const isHidden = true
+</script>
+<template>
+    <h1>Bind Directives</h1>
+    <div>
+        <h2>Static Binding</h2>
+        <img src="./assets/logo.svg" height="100" width="100" />
+    </div>
+    <div>
+        <h2>Dynamic Binding using v-bind Directive</h2>
+        <img v-bind:src="imageUrl" height="100" width="100" />
+    </div>
+    <div>
+        <h2>Dynamic Binding using v-bind Directive with Short cut</h2>
+        <img :src="imageUrl" height="100" width="100" />
+    </div>
+    <div>
+        <h2>Dynamic Binding using v-bind Directive</h2>
+        <button :disabled="isEnabled">Enable</button>
+    </div>
+    <div>
+        <article :hidden="isHidden">
+             <p>This is vue article</p>
+        </article>
+    </div>
+</template>
+<style>
+
+</style>
+.....................................................................................
+			Component Driven Design principles
+.....................................................................................
+
+Role of Components / Responsibility of Component:
+..................................................
+
+Component having state,bizlogic,ui
+
+As per component design design principles , we need to apply modularity concept.
+  Break the component based on two aspects
+
+1.Having data and biz logic
+    -Parent Component /Container component
+2.Having UI logic
+    -Child Component/Presentational Component
+
+
+Data(State) Sharing Patterns/ Data(State) Representation Patterns:
+....................................................
+
+1.Props Pattern
+  The data is shared from the Parent Component to Child Component.
+2.State Pattern
+
+If you want understand the component hierachy ,so that it is easy to explore how data is shared.
+
+Vue dev tool
+https://devtools.vuejs.org/guide/installation.html
+
+
+Parent Component
+   <ProductDetails title="Product Details" ></ProductDetails>
+                     |            |
+                  PropertyName   Property value
+   <div id="">
+	 |
+       attribute
+
+
+How to structure a Large scale vue.js app
+
+Default strcture
+
+src
+  |
+  components
+    |
+    User 
+    Product
+    Comments
+    Payment
+
+Standard Structure of apps would be domain model
+
+src
+  |
+  components
+    |
+    User 
+      Userlist.vue
+      UserDetails.vue
+      User.vue
+   Product	
+      ProductList.vue
+      ProductDetails.vue
+      Product.vue
+   stores
+   layouts
+   plugins
+   directives
+   helpers/utils
+
+Props Handling:
+Using options Api
+
+src/components/products/ProductMaster.vue
+<script setup>
+import ProductDetails from "./ProductDetails.vue";
+</script>
+<template>
+    <h2>Product Master</h2>
+    <hr>
+    <ProductDetails title="Product Details" ></ProductDetails>
+</template>
+<style>
+</style>
+
+src/components/products/ProductDetails.vue
+<!-- Options Api Pattern -->
+<script>
+export default {
+    props: ['title']
+}
+</script>
+<template>
+ <div>
+    <h1>{{title}}</h1>
+ </div>
+</template>
+<style>
+</style>
+.....................................................................................
+		.....................................................................................
+				Prop inside Composition Api
+
+
+With setup function
+<!-- Options Api Pattern -->
+<script>
+export default {
+    props: ['title'],
+    setup() {
+        
+    }
+
+}
+</script>
+<template>
+    <div>
+        <h1>{{title}}</h1>
+    </div>
+</template>
+<style>
+
+</style>
+
+what if i want to access props inside setup function?
+
+<script>
+export default {
+    props: ['title'],
+    setup() {
+        console.log(this.props)
+	console.log(props)
+    }
+
+}
+</script>
+Both will throw error?
+Uncaught ReferenceError: props is not defined
+    at setup (ProductDetails.vue:6:21)
+    at callWithErrorHandling (runtime-core.esm-bundler.js:155:22)
+    at setupStatefulComponent (runtime-core.esm-bundler.js:7187:29)
+    at setupComponent (runtime-core.esm-bundler.js:7142:11)
+    at mountComponent (runtime-core.esm-bundler.js:5491:13)
+    at processComponent (runtime-core.esm-bundler.js:5466:17)
+    at patch (runtime-core.esm-bundler.js:5068:21)
+   
+soultion:
+  we have to declare arg variable for setup function, vue actually injects
+props into that variable.
+
+<!-- Composition Api Pattern -->
+<script>
+export default {
+    props: ['title'],
+    setup(props) {
+        console.log(props.title)
+        return {
+            props
+        }
+    }
+}
+</script>
+<template>
+    <div>
+        <h1>{{title}}</h1>
+    </div>
+</template>
+<style>
+
+</style>
+....................................................................................
+			 Props inside Setup Attribute
+...................................................................................
+Vue offers an composable function called "defineProps"
+
+<!-- Composition Api Pattern -->
+<script setup>
+const props = defineProps(['title'])
+// export default {
+//     props: ['title'],
+//     setup(props) {
+//         console.log(props.title)
+//         return {
+//             title : props.title
+//         }
+//     }
+// }
+
+</script>
+<template>
+    <div>
+        <h1>{{props.title}}</h1>
+        <h1>{{title}}</h1>
+    </div>
+</template>
+<style>
+
+</style>
+..................................................................................
+....................................................................................
+			 Property Validation
+....................................................................................
+
+Some times i want to enforce the property data type validation, which is only for runtime vertification.
+
+eg:
+ i have property called age
+ i need to define rule for age that age must be number,it should not be string.
+
+eg:
+  defineProps({
+     age:Number,  
+     id: [Number,String] // can be string or can be number
+     name: {
+      type:String
+      required:true,
+      default:'name'
+     },
+    status: {
+	validator(value){
+	  return ['OK','NotOk','Success','Failure'].includes(value)
+       }
+    }
+ })
+
+Runtime Types:
+1.String
+2.Number
+3.Boolean
+4.Array
+5.Object
+6.Date
+7.Function
+8.Symbol
+
+
+<script setup>
+//const props = defineProps(['title'])
+const props = defineProps({
+    title: {
+        type:String,
+        default: 'Default Props'
+    }
+})
+</script>
+<template>
+    <div>
+        <h1>{{props.title}}</h1>
+    </div>
+</template>
+<style>
+
+</style>
+
+<script setup>
+import ProductDetails from "./ProductDetails.vue";
+
+const title = 'Product Details!!'
+const intTitle = 100
+</script>
+<template>
+    <h2>Product Master</h2>
+    <hr>
+    <!-- <ProductDetails title="Product Details" ></ProductDetails> -->
+    <!-- <ProductDetails :title="title"></ProductDetails> -->
+    <ProductDetails></ProductDetails>
+    <ProductDetails :title="title"></ProductDetails>
+    <ProductDetails :title="intTitle"></ProductDetails>
+
+
+</template>
+
+<style>
+
+</style>
+
+runtime-core.esm-bundler.js:38 [Vue warn]: Invalid prop: type check failed for prop "title". Expected String with value "100", got Number with value 100. 
+  at <ProductDetails title=100 > 
+  at <ProductMaster> 
+  at <App>
+.....................................................................................
+	
 
 
