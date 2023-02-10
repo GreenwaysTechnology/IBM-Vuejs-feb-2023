@@ -8,7 +8,6 @@ const props = defineProps({
         
     }
 })
-props.title = 'something'
 </script>
 <template>
     <h1>Child Component: {{ title }}</h1>

@@ -2337,6 +2337,599 @@ runtime-core.esm-bundler.js:38 [Vue warn]: Invalid prop: type check failed for p
   at <ProductMaster> 
   at <App>
 .....................................................................................
+.....................................................................................
+			One way data flow Model
+.....................................................................................
+All props forms a one way data flow model, where child component cant update the properties
+
+			"Props are read only"
+
+<script setup>
+//const props = defineProps(['title'])
+const props = defineProps({
+    title: {
+        type:String,
+        default: 'Default Props'
+    }
+})
+//update property - props are read only
+props.title = "something"
+</script>
+<template>
+    <div>
+        <h1>{{props.title}}</h1>
+    </div>
+</template>
+<style>
+
+</style>
+
+reactivity.esm-bundler.js:4 [Vue warn] Set operation on key "title" failed: target is readonly. Proxy
+warn @ reactivity.esm-bundler.js:4
+reactivity.esm-bundler.js:4 [Vue warn] Set operation on key "title" failed: target is readonly. Proxy
+warn @ reactivity.esm-bundler.js:4
+runtime-core.esm-bundler.js:38 [Vue warn]: Invalid prop: type check failed for prop "title". Expected String with value "100", got Number with value 100. 
+  at <ProductDetails title=100 > 
+  at <ProductMaster/>
+.....................................................................................
+
+Case Study:
+  You have to create User compoent having user details
+  1.basic user info - like id,firstName,lastName
+  2.address - street,city,state,country,zipcode
+  3.Log - img
+  4.location - lat, lng
+
+ User
+  |
+  Address
+  Logo
+  Location
+.....................................................................................
+			   Event Handling
+....................................................................................
+Event handling is one of the most popular concept in javascript as part of DOM programming.
+Event handling helps to interact with user.
+Events  are signals triggered by user or system, send to os system, the software or hardware reacts according to the event.
+
+Events are classified into two category
+
+1.Hardware events
+   Triggered by user or system, interacts with hardware devices   
+eg:
+  Mouse events
+    onclick,ondblclick,onmouseenter...
+  https://www.w3schools.com/jsref/obj_mouseevent.asp
+  Keyboard events
+   onkeypress,onkeydown
+  https://www.w3schools.com/jsref/event_onkeypress.asp
+  Touch events
+  ontouchstart,ontouchend
+  https://www.w3schools.com/jsref/obj_touchevent.asp
+
+2.Application events
+   attached with objects called dom objects
+  onload,oncomplete
+
+...................................................................................
+				How event handling works
+
+Event handling has been designed based on the design pattern called "pub-sub"/observer design pattern.
+
+There are two actors:
+1.Producer
+   The producer is something who sends signals(events - name of the event and data assoicated) to the listener
+2.Listener
+  The Listener is someone who waits/listens for event.
+  Once the event is given who reacts/respond
+
+In js :
+ Listener is function.
+
+//event is just reference to the Event Object having information about event, and data
+function listener(event){
+     event.target.value
+}
+event object is a bridge between producer and listener
+
+In javascript , events are given by language itself.
+
+events are started with "on+eventName" - 
+ onclick="listener"
+
+addEventListener('click',listener)
+listeners are plain js functions with event object reference arg
+
+Frameworks like vue,react,angular who adds their own abstractions.
+
+We can attach event on any dom element which could be application or hardware
+
+Vue Js and event handling:
+..........................
+
+Vue attaches events with any element with help of directive
+                          "v-on"
+
+Syntax:
+1. v-on:NameOftheEvent="listener" -  v-on:click="update"
+2. @click="listener" - @click="update"
+
+Event Handling : Options Api Pattern:
+......................................
+
+<script>
+export default {
+    //event handlers
+    methods: {
+        //arg
+        //event is just variable points to "EventTarget Object":Bridge object between listener and DOM element
+        hello(event) {
+            console.log(event)
+            console.log('Hello event is triggered')
+        },
+        hai() {
+            console.log('Hai event is triggered')
+        }
+    }
+}
+</script>
+<template>
+    <button v-on:click="hello">Hello</button>
+    <button @click="hello">Hai</button>
+
+</template>
+<style>
+
+</style>
+...................................................................................
+        Event Listener with compostion pattern using setup function
+...............................................................................
+
+<script>
+export default {
+    setup() {
+        //declare listener - es 5
+        // function hello(evt) {
+        //     console.log(evt)
+        //     console.log('hello')
+        // }
+        // function hai() {
+        //     console.log('hai')
+        // }
+        //declare event listener -es 6 arrow functions
+        const hello = (evt) => {
+            console.log(evt)
+            console.log('hello')
+        }
+        const hai = () => console.log('hai')
+        
+        return {
+            hello, hai
+        }
+    }
+}
+</script>
+<template>
+    <button v-on:click="hello">Hello</button>
+    <button @click="hai">Hai</button>
+
+</template>
+<style>
+
+</style>
+...................................................................................
+        Event Listener with compostion pattern using setup attribute
+...............................................................................
+<script setup>
+const hello = (evt) => {
+    console.log(evt)
+    console.log('hello')
+}
+const hai = () => console.log('hai')
+</script>
+<template>
+    <button v-on:click="hello">Hello</button>
+    <button @click="hai">Hai</button>
+
+</template>
+<style>
+
+</style>
+....................................................................................
+		 How to attach more than one listener on single DOM Element
+...................................................................................
+
+<dom v-on:eventName="listener" v-on:eventName="listener">
+<dom v-on="{mouseenter:onMouseEnter,mouseleave:onMouseLeave}">
+
+<script setup>
+const onMouseEnter = (evt) => {
+    console.log(evt)
+    console.log('mouse enter')
+}
+const onMouseLeave = () => console.log('mouse leave')
+</script>
+<template>
+    <div v-on="{mouseenter:onMouseEnter,mouseleave:onMouseLeave}">
+        Touch
+    </div>
+</template>
+<style>
+
+</style>
+...............................................................................
+..............................................................................
+..................................................................................
+			  How to pass data to the event listener
+..................................................................................
+const getData = (data,event) => {
+    console.log(data,event)
+}
+ <button @click="getData('hello',$event)">Pass Data</button>
+
+when we pass data to the listener, vue cant  pass event implicitly, we have to pass event object explicitly via "$event" which is global event object provided by vue.
+....................................................................................
+			 Reactive State
+...................................................................................
+
+Options Api with Reactive State and How to mutate them?
+  State + Event Handling
+
+
+data: 
+ method which always returns reactive state
+
+data() {
+
+ //reactive state 
+ return {
+    count:0
+ }
+}
+eg
+<script>
+
+export default {
+    data() {
+        //return reactive state object
+        return {
+            count: 0
+        }
+    },
+    methods: {
+        //listener
+        inc() {
+            //mutate the reactive variable
+            this.count++ //mutation
+        }
+    }
+}
+
+</script>
+<template>
+    <div>
+        <h1>Reative State Using Options Api</h1>
+        <h1>Counter : {{count}}</h1>
+        <button @click="inc">+</button>
+    </div>
+</template>
+.....................................................................................
+			State Update using Composition Api
+...........................................
+<script>
+
+export default {
+    setup() {
+
+        //state
+        let count = 0
+        //listener
+        const inc = () => {
+            console.log(count)
+            count++
+        }
+
+        return {
+            count,
+            inc
+        }
+    }
+}
+
+</script>
+<template>
+    <div>
+        <h1>Reative State Using Options Api</h1>
+        <h1>Counter : {{count}}</h1>
+        <button @click="inc">+</button>
+    </div>
+</template>
+
+After running this code, 
+	Here we are trying to mutate/update the "count" state variable, there is update happening but it does not trigger "view update"
+....................................................................................
+			   Reactivity
+....................................................................................
+
+What is Reactivity?
+  Reactivity is one of the core vue js concept.
+Component state are "reactive javascript objects"
+
+The word reactivity means "changing" the state(object),whenever changes happen it publishes some events, based on events,reactions happens.
+
+Programming work flow in general
+
+int x =10;
+int y =20;
+
+int result = x + y
+
+when you compute this code, the runtime will execute instructions top-down pattern.
+if there is change in variable (like x or y), will not update result variable
+ -Sequential programming model.
+
+What if i want to update the "result" variable value automatically when ever x or y changes.
+
+eg:
+Excel spreed sheet is one of the best eg for reactivitity programming
+
+eg;
+
+let A1=1
+let A2=2
+let A3 =A1+A2
+console.log(A3) => 3
+
+A2=4
+console.log(A3) => 5
+
+Here when you mutate A1 or A2, does not change automatically.
+
+We can wrap this code inside function
+
+ let A3
+ function update(){
+   A3 = A1 + A2
+ }
+
+in order get fresh value, we have to re-run the code that updates A3
+
+Pointers:
+
+1.There should be some update function, which produces a "side effect /effect".
+  if any function which changes the state of the program called side effect.
+
+2.Here ,A1 and A2 are considered dependencies of the side effect, because which helps makes side effects.
+  According to dependencies, this effect is said to be "subscriber"
+
+When ever "A1 and A2" changed, we need to invoke "update" function,which cause side effects.
+
+It looks like event driven programming (Pub-Sub Pattern /Observerable and Observer) 
+
+ function whenDepChange(update){
+     update()
+ }
+
+ let A3
+ function update(){
+   A3 = A1 + A2
+ }
+
+ whenDepChange(function(){
+     A3 = A1 + A2
+ })
+ whenDepChange(update)
+
+Role of whenDepchange function:
+................................
+
+1.Tracking the dependencies,
+    By evaulating the expression A1 and A2 ,Whether any one of them is read or not.
+
+Tracker--->triggers--whenDepChange--->runs update function---returns modified state
+	
+...................................................................................
+			  Vue js and Reactivity
+
+
+Vue js uses "Reactivity subsystem" in order to track all state variables, when ever which changes happen, it inform the vue engine for re render process..
+
+
+In Options Api pattern,
+
+export default {
+  
+  data(){
+   let count =0
+    return {
+      count:count
+    }
+  }
+
+}
+inside data function , if you return object, by default it is reactive, meaning that any changes detected, it starts re render ui.
+
+
+In Compostion api pattern: whether is setup fun or setup attribute
+
+<script>
+export default {
+ 
+   setup() {
+    let count =0;
+	return {
+	  count:count
+       }
+   }  
+
+}
+</script>
+by default setup function /setup attribute does not return reactive state..(it is normal object)
+
+In options api every property we return is reactive, but in compostion api we can restrict reactive and non reactive.
+
+How to declare reactive state/ how to attach reactivity feature?
+
+Compostion Api reactive methods:
+................................
+ref()
+computed()
+reactive()
+readonly()
+watchEffect()
+watchPostEffect()
+watchSyncEffect()
+watch()
+
+ref():
+ It is function which returns Object, not value
+
+function ref<T>(value: T): Ref<UnwrapRef<T>>
+
+interface Ref<T> {
+  value: T
+}
+....................................................................................
+			   Ref
+<script>
+import { ref } from 'vue'
+export default {
+    setup() {
+        //state -normal variable
+        //let count = 0
+        //reactive
+        let count = ref(0)
+        console.log(count)
+        //listener
+        const inc = () => {
+            count.value++
+        }
+
+        return {
+            count,
+            inc
+        }
+    }
+}
+
+</script>
+<template>
+    <div>
+        <h1>Reative State Using Options Api</h1>
+        <!-- Inside template ref Object's value property is resolve automatically, we dont need to use .value -->
+        <h1>Counter : {{count}}</h1>
+        <button @click="inc">+</button>
+    </div>
+</template>
+.....................................................................................
+			  Ref with Setup attribute
+....................................................................................
+<script setup>
+import { ref } from 'vue'
+//reactive
+let count = ref(0)
+//listener
+const inc = () => {
+    count.value++
+}
+</script>
+<template>
+    <div>
+        <h1>Reative State Using Options Api</h1>
+        <!-- Inside template ref Object's value property is resolve automatically, we dont need to use .value -->
+        <h1>Counter : {{count}}</h1>
+        <button @click="inc">+</button>
+    </div>
+</template>
+...................................................................................
+			Multiple listeners for single state
+....................................................................................
+<script setup>
+import { ref } from 'vue'
+//reactive
+let count = ref(0)
+//listener
+const inc = () => {
+    count.value++
+}
+//listener
+const dec = () => {
+    count.value--
+}
+</script>
+<template>
+    <div>
+        <h1>Reative State Using Options Api</h1>
+        <!-- Inside template ref Object's value property is resolve automatically, we dont need to use .value -->
+        <h1>Counter : {{count}}</h1>
+        <button @click="inc">+</button>
+        <button @click="dec">-</button>
+
+    </div>
+</template>
+................................................................................
+			Multiple reactive state variables
+...............................................................................
+<script setup>
+import { ref } from 'vue'
+//reactive
+let like = ref(1)
+let dislike =ref(100)
+//listener
+const onLike = () => {
+    like.value++
+}
+//listener
+const onDislike = () => {
+    dislike.value--
+}
+</script>
+<template>
+    <div>
+        <h1>Reactive State</h1>
+        <h1>Like : {{like}} Dislike {{dislike}}</h1>
+        <button @click="onLike">Like</button>
+        <button @click="onDislike">Dislike</button>
+
+    </div>
+</template>
+....................................................................................
+			how Can we mutate state without listener
+...................................................................................
+Using inline event handler
+  <button @click="like++">Like</button>
+
+<script setup>
+import { ref } from 'vue'
+let like = ref(1)
+let dislike =ref(100)
+</script>
+<template>
+    <div>
+        <h1>Reactive State</h1>
+        <h1>Like : {{like}} Dislike {{dislike}}</h1>
+        <button @click="like++">Like</button>
+        <button @click="dislike++">Dislike</button>
+    </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
 
