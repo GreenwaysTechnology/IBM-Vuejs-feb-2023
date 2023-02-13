@@ -3305,7 +3305,80 @@ Here you have to create a separate Address Component,geo component, from the use
     <Address>
      <Geo>
  </User>
+.....................................................................................
+				Array Mutations
+.....................................................................................
 
+Push,remove,update array elements
+
+<script setup>
+import { reactive } from 'vue';
+const todos = reactive([])
+//listener
+const addItem = () => {
+    todos.push({ id: Math.random(), text: 'Learn Vue!' })
+}
+</script>
+<template>
+
+    <ul>
+        <li v-for="todo in todos">
+            <span>{{todo}}</span>
+        </li>
+    </ul>
+    <button @click="addItem">AddItem</button>
+</template>
+<style>
+
+</style>
+
+In vue all array apis will not trigger render cycle..
+
+Api which trigger's render cycle - Mutating apis
+
+1.push
+2.pop
+3.shift
+4.unshift
+5.splice
+6.sort
+7.reverse
+...................................................................................
+			 Filtering/Sorting arrays with immutable api
+...................................................................................
+
+What is immutable api?
+
+ when ever we do any changes on object, instead of changing original object changes, which creates a new copy of the object- immutable.
+
+eg:
+  if you add new item into array, the runtime will create new array,instead of mutating original memory.
+
+Array immutable apis:
+ map,filter,reduce - immutable apis
+ or 
+ you can use even spread operator or Object.assign method
+
+<script setup>
+import { ref } from 'vue'
+import TODOS from './mock-data/todos'
+//deep nesting
+const todos = ref(TODOS)
+
+const filter = () => todos.value = todos.value.filter(todo => todo.completed)
+</script>
+<template>
+    <div>
+        <button @click="filter">Filter By Status</button>
+        <h1>Total items : {{todos.length}}</h1>
+        <ul>
+            <li v-for="(todo,index) in todos" :key="todo.id">
+                <span>{{todo.title}}</span>
+            </li>
+        </ul>
+
+    </div>
+</template>
 
 
 

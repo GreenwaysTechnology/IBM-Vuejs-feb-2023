@@ -1,22 +1,30 @@
 <script setup>
-import { reactive } from 'vue'
-import {PERSONS} from './mock-data/persons'
+import { ref } from 'vue'
+import { TODOS } from './mock-data/todos'
+//deep nesting
+const todos = ref(TODOS)
+const todo =ref(null)
 
-const list = reactive(PERSONS)
+const filter = () => todos.value = todos.value.filter(todo => todo.completed)
 
+const show = (item,evt)=>{
+    todo.value = item 
+    console.log(todo.value)
+}
 </script>
-<template>
+<template>  
     <div>
+        <button @click="filter">Filter By Status</button>
+        <h1>Total items : {{ todos.length }}</h1>
         <ul>
-            <li v-for="person in list" :key="person.id">
-                <span>{{person.name}}</span>
-                <ul>
-                    <li v-for="friend of person.friends">
-                            <span>{{friend.name}}</span>
-                    </li>
-                </ul>
+            <li v-for="(todo, index) in todos" :key="todo.id">
+                <span @click="show(todo,$event)">{{ todo.title }}</span>
             </li>
         </ul>
+        <div v-if="todo">
+            <h1>id {{todo.id }}</h1>
+            <h1>Title {{todo.title }}</h1>
+        </div>
 
     </div>
 </template>
