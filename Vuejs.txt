@@ -2912,13 +2912,399 @@ let dislike =ref(100)
         <button @click="dislike++">Dislike</button>
     </div>
 </template>
+....................................................................................
+....................................................................................
+			  Reactive Objects
+....................................................................................
+
+As of now, we have declared reactive primtive variables, so how to declare reactive state.
+ 
+let count = ref(0) //primitive variable
+
+let comments = reactive({
+  like:0,
+  dislike:100
+})
+
+<script setup>
+import { reactive } from 'vue'
+
+const comments = reactive({
+    like:0,
+    dislike : 0
+})
+
+</script>
+<template>
+    <div>
+        <h1>Reactive State</h1>
+        <h1>Like : {{comments.like}} Dislike {{comments.dislike}}</h1>
+        <button @click="comments.like++">Like</button>
+        <button @click="comments.dislike++">Dislike</button>
+    </div>
+</template>
+
+=>Reactive Conversion(changes) are even updated for deep nested objects 
+=>Reactive api compares every property in the object before ui re renders for changes.
+
+let obj={
+ 
+  a:1
+  b: {
+    c: {
+     d: {
+	e:0
+     }
+    }
+  }
+
+}
+
+Deep nesting:
+<script setup>
+import { reactive } from 'vue'
+
+//deep nesting
+const comments = reactive({
+    like: 0,
+    dislike: 0,
+    recommend: {
+        rating: {
+            value: 0
+        }
+    }
+})
+
+</script>
+<template>
+    <div>
+        <h1>Reactive State</h1>
+        <h1>Like : {{comments.like}} Dislike {{comments.dislike}} Rating {{comments.recommend.rating.value}}</h1>
+        <button @click="comments.like++">Like</button>
+        <button @click="comments.dislike++">Dislike</button>
+        <button @click="comments.dislike++">Dislike</button>
+        <button @click="comments.recommend.rating.value++">Rating</button>
+
+    </div>
+</template>
+.....................................................................................
+		  How to avoid deep conversion with Reactive Nested object		.....................................................................................
+
+shallowReactive:
+  shallow version of reactive()
+ Unlike reactive there is no deep conversion.... only root properties are reactive 
+
+<script setup>
+import { shallowReactive } from 'vue'
+
+//deep nesting
+const comments = shallowReactive({
+    like: 0,
+    dislike: 0,
+    recommend: {
+        rating: {
+            value: 0
+        }
+    }
+})
+
+</script>
+<template>
+    <div>
+        <h1>Reactive State</h1>
+        <h1>Like : {{comments.like}} Dislike {{comments.dislike}} Rating {{comments.recommend.rating.value}}</h1>
+        <button @click="comments.like++">Like</button>
+        <button @click="comments.dislike++">Dislike</button>
+        <button @click="comments.dislike++">Dislike</button>
+        <button @click="comments.recommend.rating.value++">Rating</button>
+
+    </div>
+</template>
+
+.....................................................................................
+		  How to avoid deep conversion with Reactive Nested object		.....................................................................................
+
+shallowReactive:
+  shallow version of reactive()
+ Unlike reactive there is no deep conversion.... only root properties are reactive 
+
+<script setup>
+import { shallowReactive } from 'vue'
+
+//deep nesting
+const comments = shallowReactive({
+    like: 0,
+    dislike: 0,
+    recommend: {
+        rating: {
+            value: 0
+        }
+    }
+})
+
+</script>
+<template>
+    <div>
+        <h1>Reactive State</h1>
+        <h1>Like : {{comments.like}} Dislike {{comments.dislike}} Rating {{comments.recommend.rating.value}}</h1>
+        <button @click="comments.like++">Like</button>
+        <button @click="comments.dislike++">Dislike</button>
+        <button @click="comments.dislike++">Dislike</button>
+        <button @click="comments.recommend.rating.value++">Rating</button>
+
+    </div>
+</template>
+
+.....................................................................................
+				List Rendering -Arrays
+....................................................................................
+Arrays:
+ =>Arrays are basic datastructure which is used to render collection of data
+ =>Arrays are dynamic
+
+Arrays and UI:
+ if you want render more data, then array is used.
+Arrays can help to build in UI layouts in various ways
 
 
+UI layouts:
+ are built with help of arrays.
 
+1.List View
+ <ul>
+   <li>
+ </ul>
+2.Card View layout
+  <div><header><section>
 
+3.Grid view
+  table
 
+.....................................................................................
+			   v-for directive
+....................................................................................
+ 
+ This directive used for array rendering and object rendering.
 
+<ul>
+ <li v-for="(variable,index) in array">
+</ul>
 
+<script setup>
+import { reactive} from 'vue'
+import TODOS from './mock-data/todos'
+//deep nesting
+const todos = reactive(TODOS)
+
+</script>
+<template>
+    <div>
+      <ul>
+        <li v-for="todo in todos">
+          <span>{{todo.title}}</span>
+        </li>
+      </ul>
+
+    </div>
+</template>
+....................................................................................
+			   List with Index
+....................................................................................
+<script setup>
+import { reactive} from 'vue'
+import TODOS from './mock-data/todos'
+//deep nesting
+const todos = reactive(TODOS)
+
+</script>
+<template>
+    <div>
+      <ul>
+        <li v-for="(todo,index) in todos">
+          <!-- <span>{{index}} {{todo.title}}</span> -->
+          <span>{{todo.title}}</span>
+        </li>
+      </ul>
+
+    </div>
+</template>
+.....................................................................................
+			   Key
+....................................................................................
+if there is re ordering in the list when we do some changes like sorting, filtering 
+vue uses an alogorthim called "path"
+
+We can tell to that alogrthim we can re arrange , that where key attribute comes into picture
+
+Key's value must be unique.
+
+<script setup>
+import { reactive} from 'vue'
+import TODOS from './mock-data/todos'
+//deep nesting
+const todos = reactive(TODOS)
+
+</script>
+<template>
+    <div>
+      <ul>
+        <li v-for="(todo,index) in todos" :key="todo.id">
+          <!-- <span>{{index}} {{todo.title}}</span> -->
+          <span>{{todo.title}}</span>
+        </li>
+      </ul>
+
+    </div>
+</template>
+....................................................................................
+			   Nested List
+...................................................................................
+
+The outter arry is iterated with "Item in Array"
+The inner array is iterated with "Item of NestedArray"
+<script setup>
+import { reactive } from 'vue'
+
+const persons = [
+    {
+        id: 1,
+        name: 'A',
+        friends: [
+            {
+                name: 'F1'
+            },
+            {
+                name: 'F2'
+            },
+            {
+                name: 'F3'
+            }
+        ]
+    },
+    {
+        id: 2,
+        name: 'B',
+        friends: [
+            {
+                name: 'BF1'
+            },
+            {
+                name: 'BF2'
+            },
+            {
+                name: 'BF3'
+            }
+        ]
+    },
+    {
+        id: 3,
+        name: 'C',
+        friends: [
+            {
+                name: 'CF1'
+            },
+            {
+                name: 'CF2'
+            },
+            {
+                name: 'CF3'
+            }
+        ]
+    }
+]
+
+const list = reactive(persons)
+
+</script>
+<template>
+    <div>
+        <ul>
+            <li v-for="person in list">
+                <span>{{person.name}}</span>
+                <ul>
+                    <li v-for="friend of person.friends">
+                            <span>{{friend.name}}</span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</template>
+
+.....................................................................................
+			  Object and V-for directive
+...................................................................................
+<script setup>
+import { reactive } from 'vue'
+
+const movie = {
+    title:'The Matrix',
+    language: ['English','Spanish','Hindi','Tamil','Telgu'],
+    hours:['2 hrs 5 mins']
+}
+const tmpMovie = reactive(movie)
+
+</script>
+<template>
+    <div>
+        <ul>
+            <li v-for="movie in tmpMovie">
+                  {{movies}}
+            </li>
+        </ul>
+
+    </div>
+</template>
+...................................................................................
+			 Range and V-for
+..................................................................................
+
+<script setup>
+import {ref} from 'vue'
+
+const start = ref(1)
+
+</script>
+<template>
+    <div>
+        <ul>
+            <li v-for="start in 100">
+                  {{start}}
+            </li>
+        </ul>
+
+    </div>
+</template>
+....................................................................................
+				Lab
+...................................................................................
+
+1.You have to render list of Users from the array
+  https://jsonplaceholder.typicode.com/users
+
+Display field:
+ UserName
+2.When you click on Each user Name, you have to display the complete other user details
+  
+  1 details
+  name:XXX
+  email:XXX
+    
+  address:
+    XXX
+    geo
+  phone
+  website
+  company
+     XXXX
+
+Here you have to create a separate Address Component,geo component, from the user component each user address must be passed as prop.
+ 
+  <User>
+    <Address>
+     <Geo>
+ </User>
 
 
 
