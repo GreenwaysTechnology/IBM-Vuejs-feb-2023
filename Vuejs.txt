@@ -3379,14 +3379,364 @@ const filter = () => todos.value = todos.value.filter(todo => todo.completed)
 
     </div>
 </template>
+....................................................................................
+
+...................................................................................
+		   Reactivity ,State Mutation,and Object Destructuring
+...................................................................................
+After reactive object destructuring , can we do state mutations?
+  Reactivity will be lost once if the object is destructured..
+
+How to convert destructured property into Reactive?
+
+1.toRef - single property
+2.toRefs - multiple property
+<script setup>
+import { reactive, toRef, toRefs } from 'vue';
+// const location = reactive({
+//     lat: 10.5,
+//     lng: 90.5
+// })
+//destructuring and reactivity
+// let { lat, lng } = toRefs(location)
+let { lat, lng } = toRefs(reactive({
+    lat: 10.5,
+    lng: 90.5
+}))
+
+const updateLocation = () => {
+    lat.value = 100.89
+    lng.value = 78.67
+}
+</script>
+<template>
+    <h1>Object destructuring and Reactivity</h1>
+    <h1>Lat : {{lat}} {{lng}}</h1>
+    <button @click="updateLocation">Update Location</button>
+</template>
+..................................................................................
+		   Reactivity ,State Mutation,and Object Destructuring
+...................................................................................
+After reactive object destructuring , can we do state mutations?
+  Reactivity will be lost once if the object is destructured..
+
+How to convert destructured property into Reactive?
+
+1.toRef - single property
+2.toRefs - multiple property
+<script setup>
+import { reactive, toRef, toRefs } from 'vue';
+// const location = reactive({
+//     lat: 10.5,
+//     lng: 90.5
+// })
+//destructuring and reactivity
+// let { lat, lng } = toRefs(location)
+let { lat, lng } = toRefs(reactive({
+    lat: 10.5,
+    lng: 90.5
+}))
+
+const updateLocation = () => {
+    lat.value = 100.89
+    lng.value = 78.67
+}
+</script>
+<template>
+    <h1>Object destructuring and Reactivity</h1>
+    <h1>Lat : {{lat}} {{lng}}</h1>
+    <button @click="updateLocation">Update Location</button>
+</template>
+....................................................................................
+
+.....................................................................................
+			Computed Properties vs Normal Methods
+...................................................................................
+<script setup>
+import { reactive, computed } from 'vue';
+const author = reactive({
+    name: 'Subramanian',
+    trainings: [
+        'Vue 3 Basic to intermediate',
+        'MicroServices using Spring Cloud'
+    ]
+})
+//computed is going to replace imperative js expression logic inside template
+//computed is cached , gets called the same result without calling method again and again, until any reactive property changed
+const isTrainingHandled = computed(() => {
+    console.log('computed property')
+    return author.trainings.length > 0 ? 'Yes' : 'No'
+})
+//normal is called for every template binding
+const isTrainingDone = () => {
+    console.log('normal method property')
+    return author.trainings.length > 0 ? 'Yes' : 'No'
+}
 
 
+</script>
+<template>
+    <!-- <h1>{{author.name}}  Has handled Trainings ? {{author.trainings.length > 0 ? 'Yes' : 'No'}}</h1>   -->
+    <h1>{{ author.name }} Has handled Trainings {{ isTrainingHandled }}</h1>
+    <h1>{{ author.name }} Has handled Trainings {{ isTrainingHandled }}</h1>
+    <h1>{{ author.name }} Has handled Trainings {{ isTrainingDone() }}</h1>
+    <h1>{{ author.name }} Has handled Trainings {{ isTrainingDone() }}</h1>
 
+</template>
 
+.....................................................................................
+	Dynamic Props: The state of one component becomes props to another component
+.....................................................................................
 
+Parent Component
 
+App.vue
+<script setup>
+import { ref } from 'vue';
+import  Counter  from './Counter.vue'
+const counter = ref(10)
+const inc = () => counter.value++
+</script>
+<template>
+    <div>
+        <Counter :counter="counter" :inc="inc" />
+    </div>
+</template>
+<style>
 
+</style>
 
+Child Component
+
+<script setup>
+const props = defineProps({
+    counter: Number,
+    inc:Function
+})
+console.log(props)
+</script>
+<template>
+    <div>
+        <h1>Counter App</h1>
+        <h2>Value {{props.counter}}</h2>
+        <button @click="inc">+</button>
+    </div>
+</template>
+<style>
+
+</style>
+...................................................................................
+.....................................................................................
+			  Event Emitter Pattern
+....................................................................................
+
+Child component can emit event along with data, where as parent component can listen for data.
+
+Event emitter syntax:
+
+in the child component
+
+const emitter =  defineEmits(['change','remove','save'])
+<script setup>
+import { ref } from 'vue';
+const emit = defineEmits(['onRequest'])
+const counter = ref(0)
+//listener to emit event
+const onSend = () => {
+    counter.value++
+    emit('onRequest', counter.value)
+}
+</script>
+<template>
+    <h1>Child</h1>
+    <button @click="onSend">Send To Parent</button>
+    <!-- Access emit method inside template refered with $ -->
+    <button @click="$emit('onRequest',counter++)">Send To Parent</button>
+
+</template>
+<style>
+
+</style>
+
+App.vue -Parent Component
+
+<script setup>
+import { ref } from 'vue';
+import EventEmitterChild from './components/Child.vue'
+
+const parentValue = ref(0)
+
+const getData = (data) => {
+    parentValue.value = data
+}
+</script>
+<template>
+    <h1>Parent</h1>
+    <h2>Child Data {{parentValue}}</h2>
+    <hr>
+    <EventEmitterChild @on-request="getData" />
+</template>
+<style>
+
+</style>
+.....................................................................................
+			   Fall Through Attributes
+	     (Sending HTML Attributes from the parent Component to Child Component)
+.....................................................................................
+
+Attribute inheritance:
+......................
+  A Fall through attribute is an attribute or v-on listeners that is passed to component but it is not explicitly declared in the receiving components(child components) via props or emits.  
+
+Parent:
+App.vue
+<script setup>
+import { ref } from 'vue';
+import MyButton from './MyButton.vue';
+const title = ref('Click')
+</script>
+<template>
+    <!-- sending html attribute as prop : fall through attributes -->
+    <MyButton :title="title"  class="fancy-btn"  :disabled="true"></MyButton>
+</template>
+<style>
+.fancy-btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline;
+    font-size: 16px;
+}
+</style>
+
+Child : MyButton.vue
+<script setup>
+const props = defineProps(['title'])
+</script>
+<template>
+    <button>{{props.title}}</button>
+</template>
+<style>
+
+</style>
+....................................................................................
+ How to access the attributes passed from parent in the child compoent
+
+Two places:
+
+1.inside template
+2.inside script block
+
+<script>
+export default {
+    created(){
+        console.log(this.$attrs)
+    }
+}
+</script>
+
+<script setup>
+const props = defineProps(['title'])
+</script>
+<template>
+    <button>{{props.title}}</button>
+     <div>{{$attrs}}</div>
+</template>
+<style>
+
+</style>
+.................................................................................
+		Can we override the dom attributes in the child component
+...................................................................................
+Yes possible except css properties by default
+
+in the style we need add attribute in the style tag scoped
+
+<script>
+export default {
+    created(){
+        console.log(this.$attrs)
+    }
+}
+</script>
+
+<script setup>
+const props = defineProps(['title'])
+</script>
+<template>
+    <button>{{props.title}}</button>
+     <!-- <div>{{$attrs}}</div> -->
+</template>
+<style scoped>
+.fancy-btn {
+    color:red
+}
+</style>
+.....................................................................................
+			Can we add new "class" to the component
+
+yes,We can
+
+When add new classes , the new css classes to be merged as part of old css.
+
+<script>
+export default {
+    created(){
+        console.log(this.$attrs)
+    }
+}
+</script>
+
+<script setup>
+const props = defineProps(['title'])
+</script>
+<template>
+    <button class="large">{{props.title}}</button>
+     <!-- <div>{{$attrs}}</div> -->
+</template>
+<style scoped>
+/* .fancy-btn {
+    color:red
+} */
+.large {
+    color: rgb(228, 7, 7);
+}
+</style>
+
+output:
+<button class="large fancy-btn" data-v-960f1381="">Click</button>
+..................................................................................
+			How to prevent Attribute inheritance
+..................................................................................
+
+yes we can.
+
+<script>
+export default {
+    created() {
+        console.log(this.$attrs)
+    },
+    // inheritAttrs: false
+}
+</script>
+<script setup>
+const props = defineProps(['title'])
+</script>
+<template>
+    <button class="large">{{ props.title }}</button>
+</template>
+<style scoped>
+.fancy-btn {
+    color: red
+}
+
+.large {
+    font-size: 24px;
+}
+</style>
 
 
 	

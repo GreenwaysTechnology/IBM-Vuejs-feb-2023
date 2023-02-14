@@ -1,30 +1,21 @@
 <script setup>
-import { ref } from 'vue'
-import { TODOS } from './mock-data/todos'
-//deep nesting
-const todos = ref(TODOS)
-const todo =ref(null)
-
-const filter = () => todos.value = todos.value.filter(todo => todo.completed)
-
-const show = (item,evt)=>{
-    todo.value = item 
-    console.log(todo.value)
-}
+import { ref } from 'vue';
+import MyButton from './components/MyButton.vue';
+const title = ref('Click')
 </script>
-<template>  
-    <div>
-        <button @click="filter">Filter By Status</button>
-        <h1>Total items : {{ todos.length }}</h1>
-        <ul>
-            <li v-for="(todo, index) in todos" :key="todo.id">
-                <span @click="show(todo,$event)">{{ todo.title }}</span>
-            </li>
-        </ul>
-        <div v-if="todo">
-            <h1>id {{todo.id }}</h1>
-            <h1>Title {{todo.title }}</h1>
-        </div>
-
-    </div>
+<template>
+    <!-- sending html attribute as prop : fall through attributes -->
+    <MyButton :title="title" class="fancy-btn" :disabled="true"></MyButton>
 </template>
+<style>
+.fancy-btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline;
+    font-size: 16px;
+}
+</style>
