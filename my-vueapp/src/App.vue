@@ -1,21 +1,31 @@
 <script setup>
-import { ref } from 'vue';
-import MyButton from './components/MyButton.vue';
-const title = ref('Click')
+import Layout from './components/Layout.vue'
 </script>
 <template>
-    <!-- sending html attribute as prop : fall through attributes -->
-    <MyButton :title="title" class="fancy-btn" :disabled="true"></MyButton>
+    <h1>Vue Application</h1>
+    <!-- <Layout>
+        <template v-slot:header>
+            <h1>Header</h1>
+        </template>
+        <template v-slot:main>
+            <p>This is body</p>
+        </template>
+        <template v-slot:footer>
+            <h3>Footer</h3>
+        </template>
+    </Layout> -->
+    <Layout>
+        <template #header>
+            <h1>Header</h1>
+        </template>
+        <template #main>
+            <p>This is body</p>
+        </template>
+        <template #footer>
+            <h3>Footer</h3>
+        </template>
+    </Layout>
 </template>
 <style>
-.fancy-btn {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline;
-    font-size: 16px;
-}
+
 </style>

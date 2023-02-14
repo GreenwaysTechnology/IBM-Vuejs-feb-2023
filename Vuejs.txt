@@ -3737,6 +3737,237 @@ const props = defineProps(['title'])
     font-size: 24px;
 }
 </style>
+............................************.............................................
+			Slots - Component as Prop/DOM element as Prop
+....................................................................................
+
+How to represent component inside template?
+
+<MyComponent>?</MyComponent>
+<MyComponent/>
+
+			
+<MyComponent>
+   You are sending component/html element =>Slot content
+</MyComponent>
+
+<Layout>
+	<Header>
+	    <Menu></Menu>
+        </Header>
+</Layout>
+
+in order to access element/component as prop inside child component vue offers
+built in component "slot" - which is place holder where the elements to be inserted
+
+Parent Component
+<script setup>
+import ChildSlot from './ChildSlot.vue';
+
+</script>
+<template>
+   <ChildSlot>
+      <h1>Slot Content</h1>
+      <h1>Slot Content</h1>
+      <h1>Slot Content</h1>
+      <h1>Slot Content</h1>
+      <h1>Slot Content</h1>
+      <h1>Slot Content</h1>
+      <h1>Slot Content</h1>
+
+   </ChildSlot>
+</template>
+<style>
+
+</style>
+
+
+Child Component
+
+ChildSlot.vue
+<script setup>
+
+</script>
+<template>
+    <div>
+        <h1>Child</h1>
+        <slot></slot>
+    </div>
+</template>
+<style>
+
+</style>
+.....................................................................................
+			  Fallback content
+.....................................................................................
+
+Parent Component
+<script setup>
+import ChildSlot from './ChildSlot.vue';
+
+</script>
+<template>
+    <ChildSlot>
+    </ChildSlot>
+    <ChildSlot>
+        <h3>How are you?</h3>
+    </ChildSlot>
+</template>
+<style>
+
+</style>
+
+
+Child Component
+
+<script setup>
+
+</script>
+<template>
+    <div>
+        <h1>Child</h1>
+        <slot>
+            Fallback Content Goes here
+        </slot>
+    </div>
+</template>
+<style>
+</style>
+...................................XXXXX...........................................
+				Multi Slot
+...................................................................................
+
+We can have more than one Slots
+
+Without slot
+<Layout>
+  <Header/>
+  <Body/>
+  <Footer/>
+</Layout>
+
+<Layout>
+  <Header>
+	<!--Header information -->
+  </Header>
+  <Body>
+	<!--Body information -->
+  </Body>
+  <Footer>
+       <!--Footer information -->
+  </Footer>
+</Layout>
+
+eg:
+Child
+<slot name="header"></slot>
+Parent
+<template v-slot:header></template>
+
+App.vue -Parent:
+<script setup>
+import Layout from './Layout.vue'
+</script>
+<template>
+    <h1>Vue Application</h1>
+    <Layout>
+        <template v-slot:header>
+            <h1>Header</h1>
+        </template>
+        <template v-slot:main>
+            <p>This is body</p>
+        </template>
+        <template v-slot:footer>
+            <h3>Footer</h3>
+        </template>
+    </Layout>
+</template>
+<style>
+
+</style>
+
+Child
+
+Layout.vue
+
+<script setup>
+
+</script>
+<template>
+    <header>
+        <slot name="header">
+            <h1>Default Header</h1>
+        </slot>
+    </header>
+    <main>
+        <slot name="main">
+            <p>This is default Main</p>
+        </slot>
+
+    </main>
+    <footer>
+        <slot name="footer">
+            <h1>Default Footer</h1>
+        </slot>
+
+    </footer>
+</template>
+<style>
+
+</style>
+................................................................................
+			Without V-Slot Directive , we can use #name
+
+      <template v-slot:header>
+            <h1>Header</h1>
+        </template>
+        <template v-slot:main>
+            <p>This is body</p>
+        </template>
+        <template v-slot:footer>
+            <h3>Footer</h3>
+        </template>
+
+
+      <template #header>
+            <h1>Header</h1>
+        </template>
+        <template #main>
+            <p>This is body</p>
+        </template>
+        <template #footer>
+            <h3>Footer</h3>
+        </template>
+
+<script setup>
+import Layout from './Layout.vue'
+</script>
+<template>
+    <h1>Vue Application</h1>
+    <Layout>
+        <!-- <template v-slot:header>
+            <h1>Header</h1>
+        </template>
+        <template v-slot:main>
+            <p>This is body</p>
+        </template>
+        <template v-slot:footer>
+            <h3>Footer</h3>
+        </template> -->
+        <template #header>
+            <h1>Header</h1>
+        </template>
+        <template #main>
+            <p>This is body</p>
+        </template>
+        <template #footer>
+            <h3>Footer</h3>
+        </template>
+    </Layout>
+</template>
+<style>
+
+</style>
 
 
 	
