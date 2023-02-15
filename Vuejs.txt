@@ -3968,8 +3968,582 @@ import Layout from './Layout.vue'
 <style>
 
 </style>
+.....................................................................................
+				Default slots
+....................................................................................
+The slot without name is called "default slot"
+
+Child:
+    <main>
+        <!-- <slot name="main">
+            <p>This is default Main</p>
+        </slot> -->
+        <!-- Default Slot : Slot without Name -->
+        <slot>
+            <p>This is default Main</p>
+
+        </slot>
+
+    </main>
+
+Parent:
+ <template #default>
+ </template>
 
 
-	
+eg:
+Parent Component
+<script setup>
+import Layout from './Layout.vue'
+</script>
+<template>
+    <h1>Vue Application</h1>
+    <Layout>
+        <!-- <template v-slot:header>
+            <h1>Header</h1>
+        </template>
+        <template v-slot:main>
+            <p>This is body</p>
+        </template>
+        <template v-slot:footer>
+            <h3>Footer</h3>
+        </template> -->
+        <template #header>
+            <h1>Header</h1>
+        </template>
+        <template #default>
+            <p>This is body</p>
+        </template>
+        <template #footer>
+            <h3>Footer</h3>
+        </template>
+    </Layout>
+</template>
+<style>
+
+</style>
+
+child Component:
+
+<script setup>
+
+</script>
+<template>
+    <header>
+        <slot name="header">
+            <h1>Default Header</h1>
+        </slot>
+    </header>
+    <main>
+        <!-- <slot name="main">
+            <p>This is default Main</p>
+        </slot> -->
+        <!-- Default Slot : Slot without Name -->
+        <slot>
+            <p>This is default Main</p>
+
+        </slot>
+
+    </main>
+    <footer>
+        <slot name="footer">
+            <h1>Default Footer</h1>
+        </slot>
+
+    </footer>
+</template>
+<style>
+
+</style>
+...................................................................................
+...................................................................................
+				Dynamic Slots
+...................................................................................
+
+The slot name can be dynamic
+
+Static slot:
+
+<template v-slot:header>
+<template #header>
+
+Dynamic Slot:
+
+const header = ref('header')
+
+<template v-slot:[header]>
+<template #[header]>
+
+<script setup>
+import { ref } from 'vue';
+import Layout from './Layout.vue'
+
+const header =ref('header')
+</script>
+<template>
+    <h1>Vue Application</h1>
+    <Layout>
+        <!-- <template v-slot:header>
+            <h1>Header</h1>
+        </template>
+        <template v-slot:main>
+            <p>This is body</p>
+        </template>
+        <template v-slot:footer>
+            <h3>Footer</h3>
+        </template> -->
+        <template #[header]>
+            <h1>Header</h1>
+        </template>
+        <template #default>
+            <p>This is body</p>
+        </template>
+        <template #footer>
+            <h3>Footer</h3>
+        </template>
+    </Layout>
+</template>
+<style>
+</style>
+
+....................................................................................
+			   Slots Scope
+....................................................................................
+Slots scope enable data accssibility for parent and child components.
+
+There are two slot scope
+1.Render scope
+2.Scoped slots
+
+Render Scope:
+............
+=> The slot content has access to the data scope of the parent component,since it is defined in the parent component.
+=> The slot content does not have access to the child component's data.
+
+	 "As rule of thumb every thing in the template compiled in the parent scope;
+          every thing is compiled in the child template in the child scope"
 
 
+Scoped Slots:
+.............
+   if you want to access data in the parent and child scope.
+
+  "if parent component want to access child  state(data),the child can pass data to   parent via "slot" when rendering it"
+
+  Slot can act as bridge between parent and child for data transfer.
+
+Syntax:
+ <slot :firstName="firstName" :age="age" />
+
+
+eg:
+Child -ScopeSlot.vue
+<script setup>
+import {ref} from 'vue'
+const message = ref('Hello')
+
+</script>
+<template>
+    <!-- send data to parent via slot -->
+    <slot :message="message"></slot>
+</template>
+<style>
+</style>
+
+Parent:
+App.vue
+<script setup>
+import ScopeSlot from './ScopeSlot.vue';
+
+</script>
+<template>
+    <h1>Scoped Slots</h1>
+    <ScopeSlot v-slot="slotprops">
+        {{slotprops.message}}
+    </ScopeSlot>
+</template>
+<style>
+</style>
+*************************************************************************************
+**************************************************************************************			 Dependency Injection: Composition API
+....................................................................................
+
+Prop Driling:
+
+ When you pass data from the parent component to child, from child to its child and so on, at each level you have to pass props manually
+
+                         Root
+			 |
+			 props
+			 |
+			Child1
+			 |props
+			Child2
+			 |props
+			Child3
+			 |props
+		        Child-N
+
+
+<script setup>
+import { ref } from 'vue';
+import Child1 from './propsdrilling/Child1.vue';
+const message = ref('Hello')
+</script>
+<template>
+    <h1>Root</h1>
+    <Child1 :message="message" />
+</template>
+
+Child1.vue
+<script setup>
+import Child2 from './Child2.vue';
+const props = defineProps(['message'])
+</script>
+<template>
+    <h1>Child 1</h1>
+    <Child2 :message="props.message" />
+</template>
+
+Child2.vue
+<script setup>
+import Child3 from './Child3.vue';
+const props = defineProps(['message'])
+
+</script>
+<template>
+    <h1>Child 2</h1>
+    <Child3 :message="props.message" />
+</template>
+
+Child3.vue
+<script setup>
+const props = defineProps(['message'])
+
+</script>
+<template>
+    <h1>Child 3 {{ props.message }}</h1>
+</template>
+
+..
+What if  i want to access the data which is supplied in the root component into the deepest child component.
+
+We can solve props drilling with "provide and inject".
+
+Parent component can act as dependency provider to all its decendants.
+
+Any component in the decendants tree, regardless of how deep it is, can inject dependencies provided by components up in its parent chain.
+
+  			Root -  Provide
+			 |        |
+			props     |
+			 |        |
+			Child1    |
+			 |        |
+			Child2    |
+			 |        |
+			Child3    |
+			 |        |
+		        Child-N - Inject
+
+
+eg:
+
+Parent : App.vue
+
+<script setup>
+import { provide, ref } from 'vue';
+import Child1 from './components/propsdrilling/Child1.vue';
+const message = ref('Hello')
+provide("message", message)
+</script>
+<template>
+    <h1>Parent</h1>
+    <Child1 ></Child1>
+</template>
+<style>
+
+</style>
+
+Child1.vue
+<script setup>
+import Child2 from './Child2.vue';
+
+</script>
+<template>
+    <h1>Child1</h1>
+    <Child2></Child2>
+</template>
+<style>
+
+</style>
+
+Child2.vue
+<script setup>
+import Child3 from './Child3.vue';
+
+</script>
+<template>
+        <h1>Child2</h1>
+
+    <Child3></Child3>
+</template>
+<style>
+</style>
+
+Child3.vue
+<script setup>
+import { inject } from 'vue';
+
+const message = inject('message')
+</script>
+<template>
+    <h1>Child3</h1>
+    <h1>Data From the Parent {{message}} </h1>
+</template>
+<style>
+
+</style>
+
+What if multiple properties to be passed ?
+
+// provide("message", message)
+// provide("counter",counter)
+
+provide('info',{counter,message})
+
+
+const message =inject('message')
+const {message,counter} =inject('info')
+
+what if i dont provide?
+ we can have default values
+
+const message = inject('message','default Message')
+....................................................................................
+Provide and inject is used to share data in the component tree.
+Provide and inject can also be used to share data globally.
+
+How to share data globally?
+ with help of application/app object 
+
+app.provide			
+
+...................................................................................
+			App Level Data sharing
+
+You have to provide via app object.
+
+app.provide('company','google')
+
+main.js
+import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App)
+    .provide('company', 'google')
+    .mount('#app')
+
+In any component:
+<script setup>
+import { inject } from 'vue'
+const props = defineProps(['message'])
+
+// const name = inject('name', 'default Name')
+// const counter = inject('counter', 0)
+const { name, counter } = inject('info')
+const company = inject('company')
+</script>
+<template>
+    <h1>Child 3 {{ props.message }}</h1>
+    <h1>Tree level Global Data {{ name }} {{ counter }}</h1>
+    <h1>App level Global Data {{ company }}</h1>
+
+</template>
+
+...................................................................................
+			App Level Data sharing
+
+You have to provide via app object.
+
+app.provide('company','google')
+
+main.js
+import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App)
+    .provide('company', 'google')
+    .mount('#app')
+
+In any component:
+<script setup>
+import { inject } from 'vue'
+const props = defineProps(['message'])
+
+// const name = inject('name', 'default Name')
+// const counter = inject('counter', 0)
+const { name, counter } = inject('info')
+const company = inject('company')
+</script>
+<template>
+    <h1>Child 3 {{ props.message }}</h1>
+    <h1>Tree level Global Data {{ name }} {{ counter }}</h1>
+    <h1>App level Global Data {{ company }}</h1>
+
+</template>
+....................................................................................
+.................................**************************..........................
+			  Form Handling
+.....................................................................................
+
+Form Controls:
+1.text / password
+2.Multi line text
+3.checkbox
+4.radio
+5.select
+6.submit
+7.reset
+
+
+How to get input from the keyboard via form controls and bind in the ui
+
+
+Syntax:
+
+<input @input="listener" >
+<script setup>
+
+const getInput = ()=>{
+}
+
+</script>
+<template>
+    <h1>Forms</h1>
+    <input @input="getInput" />
+</template>
+<style>
+
+</style>
+
+How to read value from the form controls?
+
+1.using event object
+2.using two way data binding
+
+1.using event object
+<script setup>
+
+const getInput = evt=>{
+  const value = evt.target.value
+  console.log(value)
+}
+
+</script>
+<template>
+    <h1>Forms</h1>
+    <input @input="getInput" />
+</template>
+<style>
+
+</style>
+
+How to bind data which got from keyboard?
+
+<script setup>
+import { ref } from 'vue';
+
+const name = ref('')
+
+const getInput = evt=>{
+  const value = evt.target.value
+  console.log(value)
+  name.value = value
+}
+
+</script>
+<template>
+    <h1>Forms</h1>
+     <p>{{name}}</p>
+    <input @input="getInput" />
+</template>
+<style>
+
+</style>
+
+
+Two way data binding:
+
+When ever user interacts via typing in the text box, the reactive variable is updated,
+when ever reactive variable is updated, the UI is rerendered.
+
+
+:value property  is used to initalize the default reactive state variable in side text box
+
+<script setup>
+import { ref } from 'vue';
+
+
+const name = ref('default Name')
+const getInput = evt=>{
+  const value = evt.target.value
+  console.log(value)
+  name.value = value
+}
+
+</script>
+<template>
+    <h1>Forms</h1>
+     <p>{{name}}</p>
+    <input @input="getInput" :value="name" />
+</template>
+<style>
+
+</style>
+.....................................................................................
+				How to reduce listeners
+.....................................................................................
+
+
+When we have more input fields, we need to write more event listeners, which can be avoided in two ways
+
+1.inline event listener
+<script setup>
+import { ref } from 'vue';
+const name = ref('default Name')
+</script>
+<template>
+    <h1>Forms</h1>
+     <p>{{name}}</p>
+    <input @input="evt=>name=evt.target.value" :value="name" />
+</template>
+<style>
+
+</style>
+
+2.Using v-model directive
+
+ ->It removes explicit event binding ,which attaches the default event handler and event automatically.
+ 
+<script setup>
+import { ref } from 'vue';
+const name = ref("defaultName")
+
+</script>
+<template>
+    <div>
+        <p>{{name}}</p>
+        <input v-model="name"/>
+    </div>
+</template>
+
+v-model directive can be used on other input controls as well.
+
+textarea
+  it uses value property and input event
+checkbox
+radio
+  It uses checked property and change event
+select
+ It uses value property and input event 

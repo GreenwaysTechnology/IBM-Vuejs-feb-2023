@@ -1,4 +1,3 @@
-
 <script setup>
 
 </script>
@@ -9,11 +8,7 @@
         </slot>
     </header>
     <main>
-        <!-- <slot name="main">
-            <p>This is default Main</p>
-        </slot> -->
-        <!-- Default Slot : Slot without Name -->
-        <slot>
+        <slot name="main">
             <p>This is default Main</p>
         </slot>
 

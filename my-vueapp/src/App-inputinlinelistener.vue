@@ -5,7 +5,7 @@ const name = ref('default Name')
 <template>
     <h1>Forms</h1>
      <p>{{name}}</p>
-    <input v-model="name" />
+    <input @input="evt=>name=evt.target.value" :value="name" />
 </template>
 <style>
 

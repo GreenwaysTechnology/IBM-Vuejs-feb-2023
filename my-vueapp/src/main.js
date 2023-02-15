@@ -21,4 +21,5 @@ import StatusBar from './components/StatusBar.vue'
 
 createApp(App)
     .component("status-bar", StatusBar)
+    .provide('company','IBM')
     .mount("#app")
