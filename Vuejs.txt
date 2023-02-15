@@ -4547,3 +4547,236 @@ radio
   It uses checked property and change event
 select
  It uses value property and input event 
+TextArea:
+..........
+
+Using Text area , we can get multi line input
+<script setup>
+import { ref } from 'vue';
+
+const mail = ref('')
+
+</script>
+<template>
+  
+    <div>
+        <h2>{{ mail }}</h2>
+        <label id="mail">Mail</label>
+        <textarea v-model="mail" />
+    </div>
+</template>
+
+Checkbox 
+
+Single Checkbox:
+<script setup>
+import { ref } from 'vue';
+const checked = ref(true)
+
+</script>
+<template>
+    <div>
+        <input type="checkbox" id="checkbox" v-model="checked" />
+        <label for="checkbox">{{checked}}</label>
+    </div>
+</template>
+................................................................................
+Multi Checkbox value collection:
+...............................
+
+<script setup>
+import { ref } from 'vue';
+
+const values = ref([])
+
+</script>
+<template>
+    <div>
+        <h1>Course Information</h1>
+
+        <input type="checkbox" id="frontend" value="frontEnd" v-model="values" />
+        <label for="frontend">Front End</label>
+        <input type="checkbox" id="backend" value="BackEnd" v-model="values" />
+        <label for="backend">Back End</label>
+        <input type="checkbox" id="devops" value="Dev Ops" v-model="values" />
+        <label for="devoops">Dev Ops</label>
+    </div>
+    <div>
+        {{ values }}
+    </div>
+</template>
+....................................................................................
+Radio Button:
+............
+<script setup>
+import { ref, computed } from 'vue';
+
+const choice = ref("Male")
+
+
+</script>
+<template>
+    <div>
+        <h1>Select any One</h1>
+        <input type="radio" id="Male" value="Male" checked v-model="choice" />
+        <label for="Male">Male</label>
+        <input type="radio" id="Female" value="Female" v-model="choice" />
+        <label for="Female">FeMale</label>
+    </div>
+    <div>
+        {{ choice }}
+    </div>
+</template>
+.................................................................................
+
+Select:
+<script setup>
+import { ref, computed } from 'vue';
+
+const selected = ref('')
+const courses = ref(["Vue", "React", "Angular", "MicroServices"])
+const selectedCourse = ref('')
+</script>
+<template>
+    <div>
+        <select v-model="selected">
+            <option disabled value>Select Your choice</option>
+            <option>Vue</option>
+            <option>React</option>
+            <option>Angular</option>
+            <option>MicroServices</option>
+        </select>
+    </div>
+    <div>
+        {{ selected }}
+    </div>
+    <hr />
+    <div>
+        <select v-model="selectedCourse">
+            <option disabled value>Select Your choice</option>
+            <option v-for="course of courses">{{ course }}</option>
+        </select>
+    </div>
+    <div>
+        {{ selectedCourse }}
+    </div>
+</template>
+...................................................................................
+			Advanced Form Binding Properties
+...................................................................................
+Value Bindings -vue custom attributes:
+....................................
+
+v-model=""
+true-value="yes" //replace true or false value into meaningfull values 
+false-value="no"
+
+<script setup>
+import { ref } from 'vue';
+const toggle = ref(true)
+const truthyValue="Yes"
+</script>
+<template>
+    <div>
+        <input type="checkbox" :true-value="truthyValue" checked false-value="no" v-model="toggle" />
+        <label for="Toggle">Toggle</label>
+    </div>
+    <div>
+        <!-- {{toggle ? "Yes" : "No"}} -->
+        {{ toggle }}
+    </div>
+</template>
+
+For Radio button
+
+:true-value=""
+
+For Select options
+
+:value="{text: 'some text'}"
+....................................................................................
+		Form Submission and How to prevent default events
+......................................................................................
+
+In java script, when you submit form, automatically there is event is fired , which is called "onSubmit" event.
+
+onSubmit event by default looks the server url to be posted.
+
+      <form action="http://www.google.com">
+          <button>Submit</button>
+      </form>
+
+Here , the button tries to redirect to the url mentioned in the action property.
+
+I need to control, the form submission manually.
+
+Event Object :
+
+has api called "preventDefault()" , which does not trigger auto form submission.
+
+
+<script setup>
+
+const onSubmit = event => {
+    if (event) {
+        event.preventDefault();
+    }
+}
+
+</script>
+<template>
+    <div>
+        <form action="http://www.google.com">
+            <button @click="onSubmit">Submit</button>
+        </form>
+    </div>
+</template>
+
+Vue has some short cuts, instead of giving this inside listener, we can give inside templates.
+
+Event Modifiers:
+...............
+
+Event Modifiers are used with v-on
+
+<form @submit.prevent="onSubmit">
+<script setup>
+
+const onSubmit = event => {
+    alert('Form to be Submitted')
+}
+
+</script>
+<template>
+    <div>
+        <form @submit.prevent="onSubmit">
+            <button>Submit</button>
+        </form>
+    </div>
+</template>
+
+Other event modifiers
+
+//event propagation to be stopped
+<a @click.stop="listner">
+
+I want to submit form when key board events
+
+<input @keyup.enter="onSubmit">
+
+other keyboard keys modifiers
+
+.enter
+.tab
+.left
+.right
+.space
+.down
+.up
+
+.ctrl
+.alt
+.shift
+.meta
+.enter
+
