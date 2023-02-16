@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import StatusBar from './components/StatusBar.vue'
+import { myPlugin } from './plugins/myPlugin'
 // import './assets/main.css'
 
 //createApp(App).mount('#app')
@@ -45,5 +46,6 @@ createApp(App)
             element.style.backgroundColor = color
         }
     })
+    .use(myPlugin)
     .provide('company','IBM')
     .mount("#app")

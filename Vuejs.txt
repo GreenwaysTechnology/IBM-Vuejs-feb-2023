@@ -5157,7 +5157,68 @@ const color = ref('blue')
 </template>
 <style>
 </style>
+....................................................................................
+			   Plugins
+....................................................................................
+What is plugin?
 
+ Plugins are self contained code that usuallay add app-top level functionality to Vue.
+Most of third party libs are integrated as plugin with vue echo system eg: Vue-router
+Statement management libs like vuex,Pinia.
+
+Plugins are distribtued as npm modules, in order to use plugins, we have to do two things
+
+1.install plugin as npm moudle
+
+ npm install vue-router@4
+
+2.Integrate with Application object
+
+const app =createApp(App)
+
+//directives
+app.directive('demo',{})
+//components
+app.components('component',{})
+
+//plugins
+app.use(myPlugin)
+app.use(router)
+
+app.mount("#app");
+.....................................................................................
+How to write Custom Plugins?
+
+Steps 1:
+src/plugins/myPlugin.js
+//uppercase 
+export const myPlugin = {
+    install(app, options) {
+        //application object referenced in the plugin as first parameter
+        app.config.globalProperties.$uppercase = key => {
+            return key.toUpperCase();
+        }
+    }
+}
+
+Step 2: Register the Plugin in application object.
+
+import { createApp } from 'vue'
+import App from './App.vue'
+import { myPlugin } from './plugins/myplugin'
+
+createApp(App)
+    .use(myPlugin)
+    .mount('#app')
+
+Step 3: 
+Use Plugin functionality inside app
+
+<script setup>
+</script>
+<template>
+  <h1>{{$uppercase('hello,how are you')}}</h1>
+</template>
 
 
 
