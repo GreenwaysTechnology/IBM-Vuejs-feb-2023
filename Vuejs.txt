@@ -4907,6 +4907,256 @@ const { data, error } = useFetch(url)
 <style>
 
 </style>
+.....................................................................
+.....................................................................................
+				Custom Directives
+.....................................................................................
+
+Code Reuse in Vue:
+
+The application code can be reused in vue in various ways.
+
+1.Composables
+   Way to reuse app state logic
+2.Components
+   Way to resue UI 
+3.Directives 
+   Way to resue underlaying dom features
+
+There are different types of directives 
+
+1.built in directives
+   Directives are provided by vue - v-on,v-bind....
+2.custom directives
+
+
+How to create simple custom Directive?
+
+Directive is object, having low level dom features.
+
+Steps:
+
+1.create directive object
+<script setup>
+//first directive
+const vFocus = {
+    //define life cycle methods
+    mounted: (element) => {
+        //we can get dom element here, what ever you want you can do
+        console.log(element)
+        element.focus()
+    }
+}
+</script>
+
+2.attach directive on html element.
+<template>
+    <input v-focus>
+</template>
+
+.....................................................................................
+			 DOM Manipulation using Directives
+
+<script setup>
+const vHighlight = {
+
+    mounted: (element) => {
+        //
+        element.addEventListener('mousemove', evt => {
+             highLight('yellow')
+        })
+        element.addEventListener('mouseleave', evt => {
+            highLight(null)
+        })
+        const highLight = color => {
+            element.style.backgroundColor = color
+        }
+    }
+}
+</script>
+<template>
+    <h1 v-highlight>HighLight Me!</h1>
+</template>
+<style>
+
+</style>
+.....................................................................................
+		    Component/Directive Hooks
+.....................................................................................
+Directive Hooks:
+  Directive hooks are methods which are called in every life cycle of directive
+
+created(element,binding,vnode,prevNode)
+
+beforeMount () - called before the target element is inserted into dom
+
+mounted() -> called before the parent component is updated
+
+beforeUpdate()- called after the parent component and all of its childern have updated
+
+update() -called after beforeUpdate
+
+beforeUnmount() - before removing element
+
+unmounted()  - when component is unmounted
+.....................................................................................
+			 Directives parameters,modifiers,args
+.....................................................................................
+binding object hold all information about directive
+
+
+How to pass parameter to directive?
+
+<input v-bind:value="msg">
+                      |
+		    Parameter				
+  
+import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App)
+    .provide('company', 'google')
+    .directive('focus', (element, binding) => {
+        console.log('directive => ', element)
+        element.focus()
+    })
+    .directive('highlight', (element, binding) => {
+      
+        //set inital color:
+        element.style.backgroundColor = binding.value
+        element.addEventListener('mousemove', (evt) => {
+            //element.style.backgroundColor = 'yellow'
+            highLight('yellow')
+        })
+        //remove style
+        element.addEventListener('mouseleave', (evt) => {
+            // element.style.backgroundColor = null
+            highLight(null)
+        })
+        const highLight = (color) => {
+            element.style.backgroundColor = color
+        }
+    })
+    .mount('#app')
+
+.....
+another eg:
+<script setup>
+import { ref } from 'vue'
+const color = ref('green')
+</script>
+<template>
+    <h1 v-highlight.value="color">HighLight</h1>
+    <!-- directive:arg.modifier -->
+    <h1 v-highlight:foo.bar="color">HighLight</h1>
+
+    <p v-demo>this is demo directive -simple</p>
+    <p v-demo:foo>this is demo directive-arg</p>
+    <p v-demo:foo.bar>this is demo directive-modifier</p>
+    <p v-demo:foo.bar="color">this is demo directive</p>
+    <p v-demo:foo.bar="{ color: 'green', label: 'Greetings' }">this is demo 
+    
+    directive</p>
+    <p v-demo:value="color">this is demo directive-arg</p>
+    <p v-demo="color">this is demo directive-arg</p>
+
+</template>
+import { createApp } from 'vue'
+import App from './App.vue'
+import StatusBar from './components/StatusBar.vue'
+
+// import './assets/main.css'
+
+// createApp(App).mount('#app')
+const app = createApp(App)
+//global Component
+app.component('StatusBar', StatusBar)
+//global data 
+app.provide('company', 'google')
+
+//global directives
+app.directive('highlight', (element, binding) => {
+    //console.log('element', element)
+    //console.log('binding', binding)
+
+    //get parameters supplied as part of directive
+    console.log(binding)
+    console.log('value', binding.value)
+
+    element.addEventListener('mousemove', (evt) => {
+        //element.style.backgroundColor = 'yellow'
+        highLight('pink')
+    })
+    //remove style
+    element.addEventListener('mouseleave', (evt) => {
+        // element.style.backgroundColor = null
+        highLight(null)
+    })
+    const highLight = (color) => {
+        element.style.backgroundColor = color
+    }
+    highLight(binding.value)
+
+})
+app.directive('demo', (element, binding) => {
+    console.log('element => ', element)
+    console.log('binding => ', binding)
+})
+
+
+app.mount('#app')
+
+.....................................................................................
+
+import { createApp } from 'vue'
+import App from './App.vue'
+import StatusBar from './components/global/StatusBar.vue'
+// import './assets/main.css'
+// console.log(App)
+// const app = createApp(App)
+// app.component('StatusBar', StatusBar)
+// app.mount('#app')
+
+createApp(App)
+     //key-Component Name,value-Component Reference(Object)
+     .component('StatusBar', StatusBar)
+     .provide('company', 'IBM')
+     .directive('highlight', (element, binding) => {
+          //binding is reference of Binding object which can capture the parameters
+          //passed as part of directive
+          console.log(binding)
+          if(binding.modifiers.bar){
+               element.style.color = 'green'
+          }
+          element.style.backgroundColor = binding.value
+          element.addEventListener('mousemove', (evt) => {
+               //element.style.backgroundColor = 'yellow'
+               highLight('yellow')
+          })
+          //remove style
+          element.addEventListener('mouseleave', (evt) => {
+               // element.style.backgroundColor = null
+               highLight(null)
+          })
+          const highLight = (color) => {
+               element.style.backgroundColor = color
+          }
+     })
+     .mount('#app')
+
+<script setup>
+import {ref} from 'vue'
+const color = ref('blue')
+</script>
+<template>
+    <!-- sending parameters to directive -->
+    <h1 v-highlight.value="color">Highlight</h1>
+    <!-- Directive Modifer : args -->
+    <h1 v-highlight:foo.bar="color">Highlight</h1>
+
+</template>
+<style>
+</style>
 
 
 

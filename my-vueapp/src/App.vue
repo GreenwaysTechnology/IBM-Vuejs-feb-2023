@@ -1,20 +1,14 @@
 <script setup>
-import useFetch from './composables/useFetch.js'
-const url = 'https://jsonplaceholder.typicode.com/todos'
-const { data, error } = useFetch(url)
+import { ref } from 'vue'
+const color = ref('green')
 </script>
 <template>
-    <div>Todo App</div>
-    <div v-if="error">Opps! Error Encountered</div>
-    <div v-else-if="data">
-        <div v-for="todo of data">
-            <p>{{todo.title}}</p>
-        </div>
-    </div>
-    <div v-else>
-        <h1>Loading...</h1>
-    </div>
-</template>
-<style>
+    <input v-focus />
+    <h1 v-highlight>Welcome</h1>
+    <h1 v-highlight.value="color">HighLight</h1>
+    <!-- directive:arg.modifier -->
+    <h1 v-highlight:foo.bar="color">HighLight</h1>
+    <p v-highlight:foo.bar="{ color: 'green', label: 'Greetings' }">this is demo
+    </p>
 
-</style>
+</template>

@@ -21,5 +21,29 @@ import StatusBar from './components/StatusBar.vue'
 
 createApp(App)
     .component("status-bar", StatusBar)
+    .directive('focus', (element, binding) => {
+        console.log('directive => ', element)
+        element.focus()
+    })
+    .directive('highlight', (element, binding) => {
+
+        console.log("element",element)
+        console.log("binding",binding)
+
+              //set inital color:
+        element.style.backgroundColor = binding.value
+        element.addEventListener('mousemove', (evt) => {
+            //element.style.backgroundColor = 'yellow'
+            highLight('yellow')
+        })
+        //remove style
+        element.addEventListener('mouseleave', (evt) => {
+            // element.style.backgroundColor = null
+            highLight(null)
+        })
+        const highLight = (color) => {
+            element.style.backgroundColor = color
+        }
+    })
     .provide('company','IBM')
     .mount("#app")
