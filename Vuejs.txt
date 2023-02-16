@@ -4779,4 +4779,138 @@ other keyboard keys modifiers
 .shift
 .meta
 .enter
+.....................................................................................
+
+Build Registration form:
+=>Use Layouts - Header,Body,Footer- Use Slots
+=>Create  User Registration form 
+=>Submit the form details to the Parent
+.....................................................................................
+			   API calls in vue
+.....................................................................................
+Patterns:
+1.you can write api call within component
+2.you can write api call outside component using composable
+3.you can write api call outside component using state management libs
+
+Vue has no any opinion to select lib for making api calls, you can use fetch,axios.
+
+Component life cycles:
+
+created(element,binding,vnode,prevNode)
+
+beforeMount () - called before the target element is inserted into dom
+
+mounted() -> called before the parent component is updated
+
+beforeUpdate()- called after the parent component and all of its childern have updated
+
+update() -called after beforeUpdate
+
+beforeUnmount() - before removing element
+
+unmounted()  - when component is unmounted.
+
+.....................................................................................
+
+Api calls can be made during inital page render-mounted
+Api calls can be made during user interaction.
+
+.....................................................................................
+			   Ajax calls/api calls from vue
+....................................................................................
+
+<script setup>
+import { onMounted, ref } from 'vue';
+const data = ref(null)
+const error = ref(null)
+
+function fetchData() {
+    const url = 'https://jsonplaceholder.typicode.com/todos'
+    fetch(url)
+        .then(response => response.json())
+        .then(todos => {
+            data.value = todos
+            console.log(data.value)
+        }).catch(err => {
+            console.log('error')
+            error.value = err
+        })
+}
+onMounted(() => {
+    fetchData()
+})
+</script>
+<template>
+    <div>Todo App</div>
+    <div v-if="error">Opps! Error Encountered</div>
+    <div v-else-if="data">
+        <div v-for="todo of data">
+            <p>{{todo.title}}</p>
+        </div>
+    </div>
+    <div v-else>
+        <h1>Loading...</h1>
+    </div>
+</template>
+<style>
+
+</style>
+...................................................................................
+		  How to isloate the ajax logics using composables
+...................................................................................
+<script setup>
+import useFetch from './composables/useFetch.js'
+const url = 'https://jsonplaceholder.typicode.com/todos'
+const { data, error } = useFetch(url)
+</script>
+<template>
+    <div>Todo App</div>
+    <div v-if="error">Opps! Error Encountered</div>
+    <div v-else-if="data">
+        <div v-for="todo of data">
+            <p>{{todo.title}}</p>
+        </div>
+    </div>
+    <div v-else>
+        <h1>Loading...</h1>
+    </div>
+</template>
+<style>
+
+</style>
+
+Now vue starts using lot of composable apis, which ias every growing....
+https://vueuse.org/
+
+<script setup>
+import useFetch from './composables/useFetch.js'
+import { useTitle } from '@vueuse/core'
+
+const url = 'https://jsonplaceholder.typicode.com/todos'
+const title = useTitle('New Titlte', { titleTemplate: '%s My Awesome Website' })
+
+const { data, error } = useFetch(url)
+</script>
+<template>
+    <div>Todo App</div>
+    <div v-if="error">Opps! Error Encountered</div>
+    <div v-else-if="data">
+        <div v-for="todo of data">
+            <p>{{todo.title}}</p>
+        </div>
+    </div>
+    <div v-else>
+        <h1>Loading...</h1>
+    </div>
+</template>
+<style>
+
+</style>
+
+
+
+
+
+
 

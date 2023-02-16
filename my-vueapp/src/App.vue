@@ -1,11 +1,19 @@
 <script setup>
-import { ref } from 'vue';
-const name = ref('default Name')
+import useFetch from './composables/useFetch.js'
+const url = 'https://jsonplaceholder.typicode.com/todos'
+const { data, error } = useFetch(url)
 </script>
 <template>
-    <h1>Forms</h1>
-     <p>{{name}}</p>
-    <input v-model="name" />
+    <div>Todo App</div>
+    <div v-if="error">Opps! Error Encountered</div>
+    <div v-else-if="data">
+        <div v-for="todo of data">
+            <p>{{todo.title}}</p>
+        </div>
+    </div>
+    <div v-else>
+        <h1>Loading...</h1>
+    </div>
 </template>
 <style>
 
