@@ -5904,7 +5904,19 @@ onMounted(()=>{
         <h2>{{todo.id}}  {{todo.title}}</h2>
     </div>
 </template>
+.....................................................................................
+				CURD operation
 
+=>You have to use local api
+=>You use router to display employee list
+=>YOu have add new Employee menu
+=>The EMployee form should be displayed
+=>submit the details
+    ->Pina
+   ->Redirect to Employee List Page
+ Add 
+ Edit
+ Delete
 
 
 
