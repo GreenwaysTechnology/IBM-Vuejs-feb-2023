@@ -5581,6 +5581,168 @@ const users = reactive(USERS)
         </li>
     </ul>
 </template>
+....................................................................................
+				Nested Routers
+.....................................................................................
+Building Sub menus;
+...................
 
+Movie
+
+ Sci
+ Adv
+ drama
+
+eg:
+
+Route Configuration
+{
+      path: '/movies',
+      name: 'movies',
+      component: () => import('../views/MoviesView.vue'),
+      children: [
+        {
+          path: 'action',
+          component: () => import('../views/ActionView.vue'),
+        },
+        {
+          path: 'drama',
+          component: () => import('../views/DramaView.vue'),
+        },
+        {
+          path: 'horror',
+          component: () => import('../views/HorrorView.vue'),
+        }
+      ]
+    }
+
+App.vue
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+// import HelloWorld from './components/HelloWorld.vue'
+</script>
+
+<template>
+  <header>
+    <h1>Vue App Routing</h1>
+    <div>
+      <!-- <HelloWorld msg="You did it!" /> -->
+      <nav>
+        <ul>
+          <li>
+            <RouterLink to="/">Home</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/about">About</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/review">Review</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/users">Users</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/movies">Movies</RouterLink>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <RouterView />
+</template>
+
+<style scoped>
+h1 {
+  text-align: center;
+}
+</style>
+
+MoviesReview.vue
+<script setup>
+</script>
+<template>
+    <h1>Movie View</h1>
+    <ul>
+        <li>
+            <RouterLink to="/movies/action">
+                <span>Action</span>
+            </RouterLink>
+        </li>
+        <li>
+            <RouterLink to="/movies/drama">
+                <span>Drama</span>
+            </RouterLink>
+        </li>
+        <li>
+            <RouterLink to="/movies/horror">
+                <span>Horror</span>
+            </RouterLink>
+        </li>
+    </ul>
+    <RouterView />
+</template>
+
+
+ActionView.vue
+<script setup>
+</script>
+<template>
+    <h1>Action</h1>
+</template>
+..................................................................................
+				Programmetic Navigation
+
+Using Router Object we can navigate to Views
+
+<script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const gotoReview = () => {
+    router.push('/review')
+}
+</script>
+<template>
+    <h1>Movie View</h1>
+    <ul>
+        <li>
+            <RouterLink to="/movies/action">
+                <span>Action</span>
+            </RouterLink>
+        </li>
+        <li>
+            <RouterLink to="/movies/drama">
+                <span>Drama</span>
+            </RouterLink>
+        </li>
+        <li>
+            <RouterLink to="/movies/horror">
+                <span>Horror</span>
+            </RouterLink>
+        </li>
+    </ul>
+    <RouterView />
+    <button @click="gotoReview">Review</button>
+</template>
+.....................................................................................				 Redirections
+
+  {
+      path: '/',
+      redirect: { name: 'home' }
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: HomeView
+    },
+/////////////////////////////////////////////////////////////////////////////////
+			Routing and Props
+
+const User = {
+  // make sure to add a prop named exactly like the route param
+  props: ['id'],
+  template: '<div>User {{ id }}</div>'
+}
+const routes = [{ path: '/user/:id', component: User, props: true }]
 
 
