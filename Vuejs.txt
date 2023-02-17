@@ -5220,7 +5220,299 @@ Use Plugin functionality inside app
   <h1>{{$uppercase('hello,how are you')}}</h1>
 </template>
 
+.....................................................................................
+.....................................................................................
+			         SPA
+...................................................................................
 
+...................................................................................
+			How to build SPA :Routing
+....................................................................................
+
+SPA is type of web application built for browsers, all navagations are done by javascript  , html only.
+
+SPA is called client routing.
+
+SPA core features:
+
+1.all navagation is controlled inside browser only
+2.From the server we get only data via apis as json format
+3.In spa, only we have one physical page called landing page /home page
+4.Name of the landing page would be "index.html"
+5.Rest of application page are called "virtual pages" which are created by js  dynamically we call "components"
+6.navigation is controlled by javascript objects called "location and histroy objects"
+7.Frameworks for routing is built on the top of these objects only.
+8.in order to build routing we need "HTML 5" 
+
+
+Routing can be implemented using plain js,html5,ajax,css3 itself, but in large scale we need framework, Vue supports official "vue router" which is supplied as "plugin"
+
+How to start using router?
+
+for existing application
+
+1.npm install vue-router@4
+
+2.Application configuration
+  app.use(router)
+
+For creating new application.
+
+npm init vue@latest
+
+Vue.js - The Progressive JavaScript Framework
+
+√ Project name: ... vue-spa
+√ Add TypeScript? ... No / Yes
+√ Add JSX Support? ... No / Yes
+√ Add Vue Router for Single Page Application development? ... No / Yes - Yes
+√ Add Pinia for state management? ... No / Yes
+√ Add Vitest for Unit Testing? ... No / Yes
+√ Add Cypress for both Unit and End-to-End testing? ... No / Yes
+√ Add ESLint for code quality? ... No / Yes
+
+Scaffolding project in E:\session\IBM\2022\oct\vuejs-session\vue-spa...
+
+Done. Now run:
+
+  cd vue-spa
+  npm install
+  npm run dev
+
+Web Application url pattern:
+
+1.static url
+ http://www.example.com/products.html / products.pdf
+2.dynamic web url
+ http://www.example.com/products.do /products.jsp | products.aspx | products.php
+3.Web service url - REST Api
+ http://www.example.com/api/products =>json
+4.SPA Web url
+
+
+SPA URL Patterns:
+................
+1.web url - looks like web service url
+   http://www.example.com/hello /products
+2.hash url pattern-  hash bang url pattern
+
+http://www.example.com/index.html#hello | #products
+
+................................................................................
+			 Steps for building spa
+
+1.router configuration:
+router/index.js
+
+import Home from '../components/Home.vue'
+import HelloWorld from '../components/HelloWorld.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+
+
+//route configuration
+const routes = [
+    {
+        path: '/',
+        component: Home
+    },
+    {
+        path: '/hello',
+        component: HelloWorld
+    }
+]
+//create router object
+const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes
+})
+
+export default router;
+
+2.main.js
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+
+createApp(App)
+    .use(router)
+    .mount('#app')
+
+3.routing/index.js
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/review',
+      name: 'reivew',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ReviewVue.vue')
+    }
+  ]
+})
+
+export default router
+
+
+App.vue
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+// import HelloWorld from './components/HelloWorld.vue'
+</script>
+
+<template>
+  <header>
+    <h1>Vue App Routing</h1>
+    <div>
+      <!-- <HelloWorld msg="You did it!" /> -->
+      <nav>
+        <ul>
+          <li>
+            <RouterLink to="/">Home</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/about">About</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/review">Review</RouterLink>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <RouterView />
+</template>
+
+<style scoped>
+h1 {
+  text-align: center;
+}
+</style>
+
+..................................................................................
+			   Dynamic routing : Dynamic Urls
+.................................................................................
+
+/users/:id  
+/users/1 
+
+route configuration
+  {
+      path: '/users/:id',
+      name: 'users',
+      component: () => import('../views/UsersView.vue')
+    }
+
+UsersView.vue
+<script setup>
+</script>
+<template>
+    <h1>User details</h1>
+</template>
+
+http://localhost:5173/users/2
+
+How to read route parameter?
+
+Inside Template:
+<script setup>
+
+</script>
+<template>
+    <h1>User details</h1>
+    {{$route.params}}
+    {{$route.params.id}} details
+</template>
+
+
+Inside script:
+import { useRoute } from 'vue-router';
+const route = useRoute()
+console.log(route.params.id)
+....................................................................................
+			 Master Details 
+
+
+Route Configuration:
+   {
+      path: '/users',
+      name: 'users',
+      component: () => import('../views/UsersView.vue')
+    },
+    {
+      path: '/details/:id',
+      name: 'details',
+      component: () => import('../views/UsersDetailsView.vue')
+    }
+
+Components:
+UserView.vue
+<script setup>
+import UserList from "../components/users/UserList.vue";
+</script>
+<template>
+    <UserList></UserList>
+</template>
+
+UserList.vue
+<script setup>
+import { reactive } from 'vue';
+
+const USERS = [
+    { id: 12, name: 'Dr. Nice' },
+    { id: 13, name: 'Bombasto' },
+    { id: 14, name: 'Celeritas' },
+    { id: 15, name: 'Magneta' },
+    { id: 16, name: 'RubberMan' },
+    { id: 17, name: 'Dynama' },
+    { id: 18, name: 'Dr. IQ' },
+    { id: 19, name: 'Magma' },
+    { id: 20, name: 'Tornado' }
+];
+const users = reactive(USERS)
+</script>
+<template>
+    <h1>User List</h1>
+    <ul>
+        <li v-for="user of users">
+            <RouterLink :to="'/details/'+ user.id">
+                <span>{{user.name}}</span>
+            </RouterLink>
+        </li>
+    </ul>
+</template>
+
+UsersDetails.vue
+<script setup>
+</script>
+<template>
+    <h1>{{$route.params.id}}</h1>
+</template>
+
+Build master details:
+ 
+Inside loop:
+  <RouterLink :to="'/details/'+ user.id">
+                <span>{{user.name}}</span>
+  </RouterLink>
 
 
 
